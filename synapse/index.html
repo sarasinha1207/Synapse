@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" data-club="synapse">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Synapse | AI, ML &amp; Deep Learning Club, STC IIT Patna</title>
+  <meta name="description" content="Synapse is the AI, ML and deep learning club of the Student Technical Council, IIT Patna. Hands-on projects, research and events.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap">
+
+  <!-- Load order matters: shared tokens, shared components, then the club theme. -->
+  <link rel="stylesheet" href="../stc-club-ui/tokens.css">
+  <link rel="stylesheet" href="../stc-club-ui/components.css">
+  <link rel="stylesheet" href="synapse.theme.css">
+
+  <style>
+    /* Hero artwork only: gentle pulse on a few nodes. Disabled by the
+       prefers-reduced-motion rule in components.css. */
+    .nn-node { fill: var(--bg); stroke: currentColor; stroke-width: 2.5; }
+    .nn-node.is-out { fill: currentColor; }
+    .nn-edge { stroke: currentColor; stroke-width: 1.5; opacity: .3; fill: none; }
+    @keyframes nn-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+    .nn-pulse { animation: nn-pulse 3.2s ease-in-out infinite; }
+    .nn-pulse.d2 { animation-delay: 1s; }
+    .nn-pulse.d3 { animation-delay: 2s; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============================ NAV ============================ -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a class="lockup" href="#top" aria-label="Synapse, STC IIT Patna, home">
+        <!-- TODO: replace this placeholder mark with the real Synapse logo (SVG or PNG). -->
+        <svg class="lockup-mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="9" cy="10" r="4"/><circle cx="9" cy="30" r="4"/><circle cx="31" cy="20" r="5" fill="currentColor"/>
+          <path d="M13 11.5 26.5 18.5M13 28.5l13.5-7"/>
+        </svg>
+        <span class="lockup-text"><strong>Synapse</strong><small>STC IIT Patna · TATVA wing</small></span>
+      </a>
+
+      <nav id="primary-nav" class="nav-links" aria-label="Primary">
+        <a href="#top" aria-current="page">Home</a>
+        <a href="#about">About</a>
+        <a href="#activities">What we do</a>
+        <a href="#events">Events</a>
+        <a href="#contact">Contact</a>
+        <span class="nav-cta-mobile"><a class="btn btn-primary" href="#join">Join Synapse</a></span>
+      </nav>
+
+      <a class="btn btn-primary btn-sm nav-cta" href="#join">Join Synapse</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============================ HERO ============================ -->
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">AI · ML · Deep Learning Club</span>
+          <!-- Draft copy: edit freely. -->
+          <h1>Learn AI by <span class="accent">building it</span></h1>
+          <p class="lead">
+            Synapse is the AI, ML and deep learning club of the Student Technical Council, IIT Patna.
+            We explore artificial intelligence and machine learning through hands-on projects and research.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#join">Join Synapse <span aria-hidden="true">→</span></a>
+            <a class="btn btn-secondary" href="#events">See events</a>
+          </div>
+        </div>
+
+        <!-- Decorative: a small feed-forward network, drawn in --brand. -->
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 480 380" role="presentation">
+            <path class="nn-edge" d="M70 80L240 50M70 80L240 135M70 80L240 225M70 80L240 320
+                                     M70 190L240 50M70 190L240 135M70 190L240 225M70 190L240 320
+                                     M70 300L240 50M70 300L240 135M70 300L240 225M70 300L240 320
+                                     M240 50L410 130M240 50L410 250M240 135L410 130M240 135L410 250
+                                     M240 225L410 130M240 225L410 250M240 320L410 130M240 320L410 250"/>
+            <g>
+              <circle class="nn-node" cx="70" cy="80" r="15"/>
+              <circle class="nn-node nn-pulse" cx="70" cy="190" r="15"/>
+              <circle class="nn-node" cx="70" cy="300" r="15"/>
+              <circle class="nn-node" cx="240" cy="50" r="15"/>
+              <circle class="nn-node nn-pulse d2" cx="240" cy="135" r="15"/>
+              <circle class="nn-node" cx="240" cy="225" r="15"/>
+              <circle class="nn-node nn-pulse d3" cx="240" cy="320" r="15"/>
+              <circle class="nn-node is-out" cx="410" cy="130" r="17"/>
+              <circle class="nn-node is-out nn-pulse d2" cx="410" cy="250" r="17"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ ABOUT ============================ -->
+    <section class="section" id="about">
+      <div class="container split">
+        <div class="split-copy">
+          <span class="eyebrow">About us</span>
+          <h2 class="section-title">Exploring intelligence, <span class="accent">one model at a time</span></h2>
+          <p>
+            Synapse is a club under TATVA, the Technology &amp; Research wing of the Student Technical Council,
+            IIT Patna Hybrid Programs.
+          </p>
+          <!-- TODO: add 2–3 sentences on the club's story, who it is for, and what members get. -->
+          <p>[Add the club's story here: who Synapse is for, what members build, how to take part.]</p>
+        </div>
+
+        <div class="card">
+          <dl class="kv">
+            <div><dt>Council</dt><dd>Student Technical Council, IIT Patna Hybrid Programs</dd></div>
+            <div><dt>Wing</dt><dd>TATVA · Technology &amp; Research Cell</dd></div>
+            <div><dt>Focus</dt><dd>AI, machine learning &amp; deep learning</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ ACTIVITIES ============================ -->
+    <section class="section section-soft" id="activities">
+      <div class="container">
+        <div class="section-head is-centered">
+          <span class="eyebrow">What we do</span>
+          <h2 class="section-title">Learn it, build it, <span class="accent">break it</span></h2>
+          <p>Hands-on work across the AI stack. (Draft descriptions: edit to match what Synapse actually runs.)</p>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9.5 9.5h5v5h-5zM9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>
+            </span>
+            <h3>AI / ML projects</h3>
+            <p>Build real projects from first model to something you can show, with mentors and peers.</p>
+          </article>
+          <article class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>
+            </span>
+            <h3>Deep learning</h3>
+            <p>Work through the ideas behind modern models, with code alongside every concept.</p>
+          </article>
+          <article class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="m7 6.7 10 4.6M7 17.3l10-4.6"/></svg>
+            </span>
+            <h3>Neural networks</h3>
+            <p>Understand how networks learn by training them, tuning them and watching them fail.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ FEATURED EVENT ============================
+         PLACEHOLDER CONTENT. This block is the reusable event pattern:
+         eyebrow + title, facts strip, stage timeline. Event sites reuse it as-is. -->
+    <section class="section" id="events">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Featured event</span>
+          <h2 class="section-title">Next up: <span class="accent">Event name</span></h2>
+          <p>One or two sentences on what the event is and who it is for.</p>
+        </div>
+
+        <dl class="facts">
+          <div><dt>Format</dt><dd>Online / On campus</dd></div>
+          <div><dt>Duration</dt><dd>N days</dd></div>
+          <div><dt>Participation</dt><dd>Individual / Team</dd></div>
+          <div><dt>Registration</dt><dd>DD MMM – DD MMM YYYY</dd></div>
+        </dl>
+
+        <ol class="timeline">
+          <li><span class="stage">Stage 01</span><h3>Stage title</h3><p>Describe what happens at this stage.</p></li>
+          <li><span class="stage">Stage 02</span><h3>Stage title</h3><p>Describe what happens at this stage.</p></li>
+          <li><span class="stage">Stage 03</span><h3>Stage title</h3><p>Describe what happens at this stage.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============================ JOIN ============================ -->
+    <section class="section section-soft" id="join">
+      <div class="container">
+        <div class="cta-band">
+          <h2>Ready to build with Synapse?</h2>
+          <p>Come to an event, join a project, or just say hello. Everyone starts somewhere.</p>
+          <div class="cta-actions">
+            <!-- TODO: point this at the real join / registration form. -->
+            <a class="btn btn-light" href="#contact">Get involved</a>
+            <a class="btn btn-outline-light" href="https://www.stciitphybrid.in/wings/tatva">Explore TATVA</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================ FOOTER ============================
+       Structure mirrors stciitphybrid.in: brand + blurb, quick links, contact. -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="lockup" href="#top" aria-label="Synapse, back to top">
+            <svg class="lockup-mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+              <circle cx="9" cy="10" r="4"/><circle cx="9" cy="30" r="4"/><circle cx="31" cy="20" r="5" fill="currentColor"/>
+              <path d="M13 11.5 26.5 18.5M13 28.5l13.5-7"/>
+            </svg>
+            <span class="lockup-text"><strong>Synapse</strong><small>AI, ML &amp; Deep Learning Club</small></span>
+          </a>
+          <p>A TATVA sub-club of the Student Technical Council, IIT Patna Hybrid Programs.</p>
+        </div>
+
+        <div>
+          <h2>Synapse</h2>
+          <ul class="footer-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#activities">What we do</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#join">Join</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2>STC</h2>
+          <ul class="footer-links">
+            <li><a href="https://www.stciitphybrid.in/">Student Technical Council</a></li>
+            <li><a href="https://www.stciitphybrid.in/wings/tatva">TATVA wing</a></li>
+            <li><a href="https://www.stciitphybrid.in/events">STC events</a></li>
+            <li><a href="https://www.instagram.com/stc_iitp_cet/">STC on Instagram</a></li>
+            <li><a href="https://www.linkedin.com/company/stc-iitp-hybrid-programs/posts/?feedView=all">STC on LinkedIn</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2>Contact</h2>
+          <ul class="footer-links">
+            <li>IIT Patna, Bihta, Patna - 801106</li>
+            <li><a href="mailto:tatva@iitp.ac.in">tatva@iitp.ac.in</a> (TATVA)</li>
+            <li><a href="mailto:stc_iitp@iitp.ac.in">stc_iitp@iitp.ac.in</a> (STC)</li>
+            <!-- TODO: add Synapse's own email and social links here. -->
+          </ul>
+        </div>
+      </div>
+
+      <p class="footer-bottom">© 2026 Synapse · Student Technical Council For Hybrid programs, IIT Patna. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle. Everything else on the page works without JavaScript.
+    (function () {
+      var btn = document.querySelector('.nav-toggle');
+      var nav = document.getElementById('primary-nav');
+      if (!btn || !nav) return;
+      function set(open) {
+        nav.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      }
+      btn.addEventListener('click', function () { set(!nav.classList.contains('is-open')); });
+      nav.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+    })();
+  </script>
+</body>
+</html>
