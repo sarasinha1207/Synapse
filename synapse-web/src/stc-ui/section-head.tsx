@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Eyebrow } from "./eyebrow";
 
@@ -9,18 +10,40 @@ interface SectionHeadProps {
   accent: string;
   description?: string;
   centered?: boolean;
+  /** Optional control on the right (for example a "Leaderboard" button). Ignored when centred. */
+  action?: ReactNode;
+  /** id for the h2, so the section can point to it with aria-labelledby. */
+  headingId?: string;
   className?: string;
 }
 
-export function SectionHead({ eyebrow, before, accent, description, centered = false, className }: SectionHeadProps) {
+export function SectionHead({
+  eyebrow,
+  before,
+  accent,
+  description,
+  centered = false,
+  action,
+  headingId,
+  className,
+}: SectionHeadProps) {
   return (
-    <div className={cn("mb-10 grid gap-4", centered ? "justify-items-center text-center" : "justify-items-start", className)}>
-      <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="text-h2 font-bold text-balance text-ink">
-        {before}
-        <span className="text-brand">{accent}</span>
-      </h2>
-      {description ? <p className="max-w-160 text-muted">{description}</p> : null}
+    <div
+      className={cn(
+        "mb-10 flex flex-wrap items-end gap-x-8 gap-y-5",
+        centered ? "justify-center text-center" : "justify-between",
+        className,
+      )}
+    >
+      <div className={cn("grid gap-4", centered ? "justify-items-center" : "justify-items-start")}>
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h2 id={headingId} className="text-h2 font-bold text-balance text-ink">
+          {before}
+          <span className="text-brand">{accent}</span>
+        </h2>
+        {description ? <p className="max-w-160 text-muted">{description}</p> : null}
+      </div>
+      {action && !centered ? <div className="flex-none">{action}</div> : null}
     </div>
   );
 }

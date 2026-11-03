@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Michroma, Outfit } from "next/font/google";
+import { SynapseFooter, SynapseNav } from "@/synapse/chrome";
 import "./globals.css";
 
 // Outfit = the STC family font. Michroma = the Synapse wordmark only.
@@ -7,10 +8,14 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: 
 const michroma = Michroma({ subsets: ["latin"], weight: "400", variable: "--font-michroma", display: "swap" });
 
 const description =
-  "Synapse is the AI, ML and deep learning club of the Student Technical Council, IIT Patna. Hands-on projects, research and events.";
+  "Synapse is the AI, ML and deep learning club of the Student Technical Council, IIT Patna. Hands-on projects, shared revision material, quizzes and events.";
 
 export const metadata: Metadata = {
-  title: "Synapse | AI, ML & Deep Learning Club, STC IIT Patna",
+  // Pages set their own `title`; the template adds the club name after it ("Resources | Synapse").
+  title: {
+    default: "Synapse | AI, ML & Deep Learning Club, STC IIT Patna",
+    template: "%s | Synapse",
+  },
   description,
   openGraph: {
     title: "Synapse | The AI/ML Club, STC IIT Patna",
@@ -26,7 +31,14 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     // data-club selects the club theme (src/synapse/theme.css). Event pages would add data-event here.
-    <html lang="en" data-club="synapse" className={`${outfit.variable} ${michroma.variable}`}>
+    // data-scroll-behavior tells Next to pause our `scroll-behavior: smooth` during page changes, so a new page
+    // opens at its top instead of animating from the old scroll position.
+    <html
+      lang="en"
+      data-club="synapse"
+      data-scroll-behavior="smooth"
+      className={`${outfit.variable} ${michroma.variable}`}
+    >
       <body>
         {/* Reveal animations start hidden; without JavaScript, show everything. */}
         <noscript>
@@ -38,7 +50,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
+        <SynapseNav />
         {children}
+        <SynapseFooter />
       </body>
     </html>
   );

@@ -78,6 +78,18 @@ Headings use `text-wrap: balance` so they never end on a single orphan word. The
 | `on-dark-muted` | `#d1d5dc` / gray-300 | Text on the dark footer |
 | white | `#ffffff` | Page and card background |
 
+**Status and form colours** (used by form controls and messages; every pairing is verified in section 7):
+
+| Token | Value (hex / Tailwind) | Use |
+|---|---|---|
+| `field` | `#6a7282` / gray-500 | Border of inputs, selects and text areas |
+| `danger` | `#c10007` / red-700 | Error text and the border of an invalid field |
+| `danger-tint` | `#fef2f2` / red-50 | Error message background |
+| `success` | `#008236` / green-700 | Confirmation text |
+| `success-tint` | `#f0fdf4` / green-50 | Confirmation message background |
+
+`line` is only 1.24:1 against white. That is fine for decorative card borders, but **too faint for a form control**: WCAG 1.4.11 requires 3:1 for the boundary of an input. That is why fields use `field` (4.84:1).
+
 **Brand: the one colour a club chooses.** Default (when no club theme is loaded) is the STC council blue, `oklch(0.546 0.245 262.881)`, about `#155dfc`.
 
 Everything else is derived from `--brand` with CSS `color-mix()` in the `oklch` colour space:
@@ -133,8 +145,8 @@ Each component lists what it is, how it is built, and the rules that keep it con
   - STC badge: 40 px rounded square, white background (the STC logo is a white JPG), small shadow, links to the STC site.
   - Divider: 1 px wide, 28 px tall, `line` colour.
   - Club lockup: club mark (40 px tall), club name, and a one-line descriptor in label style (10 px, uppercase, muted).
-- Links: 14 px / 500, padding 8 x 14 px, radius 10. Hover = `soft` background. Current page = `--brand-tint` background with `--brand` text, and `aria-current="page"`.
-- One primary CTA button (small size) at the right from 832 px up.
+- Links are real routes (Home, Resources...): 14 px / 500, padding 8 x 14 px, radius 10. Hover = `soft` background. The current page is worked out from the URL and shown with a `--brand-tint` background, `--brand` text and `aria-current="page"`.
+- One optional primary CTA button (small size) at the right from 832 px up. The reference site uses it for **Contact Us**, the way the STC site uses a button for its Brochure.
 - Below 832 px: links collapse behind a 40 px menu button. The panel opens full width under the bar, repeats the CTA at the bottom, closes on Escape or after a tap, and the button carries `aria-expanded` and an accurate label.
 
 ### 4.2 Button (`button.tsx`)
@@ -153,11 +165,11 @@ Sizes: default (padding 12 x 20, about 44 px tall) and small (padding 8 x 16, ab
 A small pill above a heading: `--brand-tint` background, `--brand` text, label type style, padding 6 x 14 px, fully rounded.
 
 ### 4.4 Section heading (`section-head.tsx`): the STC "two-tone" heading
-Eyebrow pill, then an h2 whose **last words are in `--brand`**, then an optional muted paragraph (max 40rem). Left-aligned by default, centred when the section is a grid of cards. 40 px gap below.
+Eyebrow pill, then an h2 whose **last words are in `--brand`**, then an optional muted paragraph (max 40rem). Left-aligned by default, centred when the section is a grid of cards. 40 px gap below. An optional action (for example a **Leaderboard** button) can sit at the right of the heading on wide screens.
 Example: "Learn it, build it, **break it**".
 
 ### 4.5 Card (`card.tsx`)
-White background, 1 px `line` border, radius 10, small shadow, 24 px padding. On hover it lifts 3 px, gains the medium shadow and a `--brand-line` border over 200 ms (the movement is removed for visitors who prefer reduced motion).
+White background, 1 px `line` border, radius 10, small shadow, 24 px padding. On hover it lifts 3 px, gains the medium shadow and a `--brand-line` border over 200 ms (the movement is removed for visitors who prefer reduced motion). Boxes that are not clickable (a form, a list of facts) switch the hover off so they do not look like links.
 Icon tile: 44 px square, radius 10, `--brand-tint` background, `--brand` icon (24 px, 1.75 stroke).
 
 ### 4.6 Facts strip (`facts-strip.tsx`), an event pattern
@@ -178,24 +190,62 @@ Content fades in and rises 16 px (500 ms, ease-out, once) when scrolled into vie
 ### 4.11 Container (`container.tsx`)
 `max-width: 72rem`, centred, with the responsive gutter from 3.3. Every section wraps its content in it.
 
+### 4.12 App link (`app-link.tsx`)
+One link component for the whole site. Routes inside the site (`/resources`) use the framework's client-side link, so pages change without a full reload; everything else (`https://...`, `mailto:`) is a plain anchor. Off-site links can open in a new tab, and then get `rel="noopener noreferrer"` plus a screen-reader note "(opens in a new tab)". Buttons, the nav and the footer all use it, so nobody writes a raw `<a href="/...">` to an internal page.
+
+### 4.13 Section (`section.tsx`)
+The standard page section: top and bottom padding from 3.3, content inside the container, optional `soft` background. Sections alternate white and `soft` down a page, and each one names its heading with `aria-labelledby`.
+
+### 4.14 Page header (`page-header.tsx`)
+The opening band of every **inner** page (Resources, Contact...): eyebrow pill, two-tone h1 at section-heading size (30 to 48 px), one lead paragraph, on the same white-to-`soft` gradient with the faint brand glow as the home hero. The home page keeps the larger hero; inner pages use this smaller header so the content starts sooner.
+
+### 4.15 Item card (`item-card.tsx`)
+A card for one thing a visitor might want to open: an event, a shared document, a quiz. Top to bottom: small pills (a status or type such as "Upcoming" or "PDF" in `--brand-tint`; a "Sample" pill with a `field` border for draft content), title (20 px / 700), a muted facts line (date · format), a short description, then action buttons at the bottom.
+- Actions are small buttons with an icon (open, download, file, leaderboard, register). While a link does not exist yet (no `href`), the card shows a muted "link coming soon" note instead of a dead button, so nothing on the page is broken.
+- External links open in a new tab and say so to screen readers.
+- The "Sample" pill marks placeholder content so it cannot be mistaken for real content. Remove the flag when the item is real.
+- The same card is used for events, materials and quizzes, so a visitor learns the pattern once.
+
+### 4.16 Form controls (`form.tsx`)
+Text input, select and text area share one look: white background, 1 px `field` border (4.84:1, see 3.2), radius 10, padding 10 x 14 px, 16 px text. Focus = `--brand` border plus a 2 px `--brand` outline. Invalid = `danger` border.
+A **field** is a label (14 px / 500; a required field shows a red asterisk and, for screen readers, the words "(required)"), an optional hint (14 px, `muted`), the control, and an error line (icon plus text in `danger`).
+Rules for forms:
+- Say what is wrong in words, next to the field (never by colour alone). Mark the control `aria-invalid` and link its hint and error with `aria-describedby`.
+- After a failed submit: move focus to the first field to fix, **keep everything the visitor typed** (including a chosen option in a select), and show a summary message at the top (`role="alert"`).
+- Success messages use `role="status"` and the `success` colours.
+- Validate on the server (it is the source of truth). Turn off the browser's own pop-up bubbles so every visitor sees the same messages.
+- Ask only for what is needed.
+
 ---
 
 ## 5. Page patterns
 
+A club site has **three pages**: Home, Resources and Contact Us. The nav and footer belong to the page shell (the layout), not to each page.
+
 ### 5.1 Club home page
 Sections alternate white and `soft` backgrounds:
 
-1. **Nav**
-2. **Hero** (white to `soft` gradient with a faint `--brand-tint-2` glow at the top right): eyebrow, two-tone h1, lead paragraph, primary + secondary button; the club's artwork on the right (stacks below on phones)
-3. **About** (white): eyebrow, two-tone h2, short copy; a card of key facts (council, wing, focus)
-4. **What we do** (`soft`): centred heading, a responsive grid of icon cards (auto-fit, 16rem minimum)
-5. **Featured event** (white): heading, facts strip, stage timeline
-6. **Join** (`soft`): the CTA band
-7. **Footer**
+1. **Hero** (white to `soft` gradient with a faint `--brand-tint-2` glow): eyebrow, two-tone h1, lead paragraph, primary + secondary button; the club's artwork on the right (stacks below on phones)
+2. **About** (white): eyebrow, two-tone h2, a short description of the club in two paragraphs, and a card of key facts (council, wing, focus)
+3. **Key focus areas** (`soft`): centred heading and four icon cards. Use fixed columns for a fixed number of items (1 column, then 2 x 2, then 4 across) so no card is left alone on a row
+4. **Events** (white): heading and a grid of item cards (status pill, date and format, short description, action), plus a line pointing to Resources
 
-Anchors: `#top`, `#about`, `#activities`, `#events`, `#join`, `#contact`.
+Anchors: `#about`, `#focus`, `#events`.
 
-### 5.2 Event or competition page (recommended pattern, based on the WebWiser "Evidence 404" page)
+### 5.2 Resources page (a "list" page)
+Page header, then one section per list (a heading and a grid of item cards), then a closing CTA band that points to Contact.
+- Reference sections: **Revision material shared** (white) and **Quizzes conducted** (`soft`). Each section carries one link to its **leaderboard** at the right of the heading, and each item card can carry its own leaderboard link.
+- Newest items first. Lists are auto-fit grids (cards at least 18rem wide), so they work for 1 item or 30.
+- Everything is filled from one typed data file; adding an item means adding one entry.
+
+### 5.3 Contact page (a "form" page)
+Page header, then a two-column section: the form in a static card on the left (wider), and an "Other ways to reach us" card on the right (emails, address, a pointer to Resources). They stack on phones.
+- The **doubt form** has name, email, topic (a fixed list) and message. Its behaviour is specified in 4.16.
+- **Where submissions go** is a deployment decision. The form posts to a server action that forwards the doubt as JSON to the URL in the `DOUBTS_WEBHOOK_URL` environment variable (a Google Apps Script web app that writes to a Sheet, Formspree, a Zapier or Make webhook...). The site itself stores nothing. If the variable is empty the form says it is not switched on yet and shows an email address instead.
+- **Spam:** a hidden field that people never see (bots tend to fill it; those submissions are quietly dropped) and length limits. There is no rate limiting and no CAPTCHA.
+- **Hosting:** needs a Node host (the form runs on the server). A purely static export cannot run it.
+
+### 5.4 Event or competition page (recommended pattern, based on the WebWiser "Evidence 404" page)
 Same nav and footer as the club, with an event skin applied. Suggested order: hero (event name, one-line pitch, dates, primary Register button) -> facts strip -> overview/brief -> how it works (3 to 4 numbered steps) -> stage timeline -> rules, prizes and policy -> sponsors/organisers -> Register CTA band.
 Patterns worth keeping from that page: numbered section eyebrows, the Format/Duration/Participation facts strip, a key-dates strip, a day-by-day timeline, and a persistent Register button.
 Recommendation: host event sites on an STC or club domain, and show sponsors as a badge or strip, so the STC/club identity stays primary.
@@ -239,6 +289,10 @@ Minimum bar for every STC site: **WCAG 2.2 level AA**.
 | white on ink (footer headings) | 17.75 |
 | on-dark-muted on ink (footer text) | 12.06 |
 | STC blue: white on blue / blue on white | 5.26 |
+| form field border (`field`) on white (a UI boundary needs 3:1) | 4.84 |
+| `danger` text on white / on `danger-tint` | 6.42 / 5.88 |
+| `success` text on white / on `success-tint` | 4.94 / 4.72 |
+| `line` on white (decorative card borders only, never for form controls) | 1.24 |
 
 Brand-dependent pairings are checked per club (see `SYNAPSE-UI.md` for Synapse's numbers). The rules:
 
@@ -249,6 +303,8 @@ Brand-dependent pairings are checked per club (see `SYNAPSE-UI.md` for Synapse's
 - **Images:** meaningful images have alt text; decorative ones use `alt=""`. When the club lockup link already has a label, its mark is decorative.
 - **Motion:** respect `prefers-reduced-motion`; no information is conveyed by motion alone.
 - **Targets:** default buttons are about 44 px tall; the small nav button is about 36 px, above the 24 px WCAG 2.2 minimum.
+- **Forms:** every control has a visible label (a placeholder is not a label); required fields are marked in words as well as with an asterisk; errors are announced (`role="alert"`) and linked to their field (`aria-describedby`, `aria-invalid`); focus moves to the first error.
+- **Links to other sites** open in a new tab only when the visitor is told ("opens in a new tab").
 - **Logos** are exempt from text-contrast rules (the Synapse gradient wordmark is an example).
 
 ---
@@ -262,8 +318,8 @@ Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v4 ·
 ```
 src/
   stc-ui/        layer 1: shared (tokens.css, components, STC logo)
-  <club>/        layer 2: theme.css, content.ts, sections, club logo
-  app/           Next.js shell: layout.tsx (fonts, data-club), page.tsx, globals.css
+  <club>/        layer 2: theme.css, content/ (one typed file per page), a folder of sections per page, club logo
+  app/           Next.js shell: layout.tsx (fonts, data-club, nav and footer), one folder per route, globals.css
   lib/utils.ts   class-name helper (aware of the STC token names)
 ```
 `globals.css` imports in the required order: Tailwind, `stc-ui/tokens.css`, `<club>/theme.css`, then any event skin.
@@ -273,14 +329,14 @@ Runtime tokens (what themes and skins may set or read):
 
 `--brand` · `--on-brand` · `--brand-hover` · `--brand-deep` · `--brand-end` · `--brand-tint` · `--brand-tint-2` · `--brand-line` · `--font-label` · `--label-case` · `--label-tracking` · `--stc-font-sans` · `--stc-font-mono` · `--nav-h` · `--gutter` · `--section-y`
 
-Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-stc`, `shadow-stc-sm`, `max-w-stc`, `text-hero`): `--color-soft`, `--color-ink`, `--color-ink-2`, `--color-muted`, `--color-line`, `--color-on-dark-muted`, `--radius-stc`, `--radius-stc-lg`, `--shadow-stc-sm`, `--shadow-stc-md`, `--container-stc`, `--breakpoint-md`, `--text-hero`, `--text-h2`, `--text-lead`, `--text-label`.
+Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-stc`, `shadow-stc-sm`, `max-w-stc`, `text-hero`): `--color-soft`, `--color-ink`, `--color-ink-2`, `--color-muted`, `--color-line`, `--color-on-dark-muted`, `--color-field`, `--color-danger`, `--color-danger-tint`, `--color-success`, `--color-success-tint`, `--radius-stc`, `--radius-stc-lg`, `--shadow-stc-sm`, `--shadow-stc-md`, `--container-stc`, `--breakpoint-md`, `--text-hero`, `--text-h2`, `--text-lead`, `--text-label`.
 
 ### 8.4 Starting a new club site
 1. Copy `src/stc-ui/` and `src/lib/utils.ts` unchanged. (Until a shared package exists, shared changes are made once and re-copied; do not fork the files.)
 2. Load Outfit with `next/font`, exposing it as `--font-outfit`.
 3. Create `src/<club>/theme.css` containing `[data-club="<club>"] { --brand: ...; }`, and put the club logo in `src/<club>/assets/`.
 4. Import `tokens.css` then the theme in `globals.css`; set `data-club="<club>"` on `<html>`.
-5. Write the page from the shared components, keeping all copy in one typed content file.
+5. Write each page from the shared components, keeping the copy in typed content files (one per page) so editing text never means editing components. Put the nav and footer in `layout.tsx` so every page gets them.
 6. Check the contrast pairings in section 7 for the chosen accent.
 7. For an event: add `src/<event>/skin.css` after the theme and set `data-event`.
 
@@ -295,7 +351,11 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 | Use the two-tone heading and eyebrow pill | Invent new heading styles |
 | Keep 10 px radius and the shared shadows | Square or heavily rounded corners on cards and buttons |
 | Put brand text only on white, `soft` or `--brand-tint` | Put brand text on `--brand-tint-2` or `--brand-end` |
-| Keep all page copy in one typed file | Scatter copy across components |
+| Keep page copy in typed content files, one per page | Scatter copy across components |
+| Leave an item's link empty until it exists (the card says "link coming soon") | Ship `#` placeholder links that go nowhere |
+| Mark draft content with the "Sample" pill | Publish placeholder text that looks real |
+| Use `field` for input borders | Use the faint `line` grey on a form control |
+| Keep what a visitor typed when a form shows an error | Clear the form on error |
 | Use event skins for event personality | Change fonts or layout for an event |
 
 ---
@@ -303,7 +363,9 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 ## 10. Known gaps and roadmap
 
 - Light theme only (the STC site is light only); no dark mode.
-- One page template (club home) is built; the **event page template is specified in 5.2 but not yet built**.
+- Three page patterns are built (home, list, form). The **event page template is specified in 5.4 but not yet built**.
+- The doubt form needs a Node host and a destination URL, and has no rate limiting or CAPTCHA (see 5.3).
+- The Resources lists have no search or filter yet; they are meant for tens of items, not hundreds.
 - The shared layer is copied between projects; extracting it into a versioned package (for example an npm workspace `@stc/ui`) is the next step once a second club site exists.
 - No design-token export for non-web tools (Figma variables) yet.
 - Hex values for the wing accents are approximate readings of the live site, not an official palette.
@@ -313,3 +375,4 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: tokens, 11 components, club-home pattern, event-skin rules, accessibility baseline. Reference implementation built for Synapse |
+| 0.2 | 2026-11-05 | Three-page club site (Home, Resources, Contact Us). Added: status and form colours (`field`, `danger`, `success`), components 4.12 to 4.16 (app link, section, page header, item card, form controls), page patterns 5.2 (list) and 5.3 (form), form accessibility rules. Nav links are now routes with a URL-driven current state; the card hover can be switched off |

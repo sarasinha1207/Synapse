@@ -1,19 +1,20 @@
 import { BrandGroup } from "@/stc-ui/brand";
 import { SiteFooter } from "@/stc-ui/site-footer";
 import { SiteNav } from "@/stc-ui/site-nav";
-import { club, footer, joinCta, navLinks } from "./content";
+import { club, contactCta, footer, navLinks } from "./content/site";
 import { SynapseLockup } from "./lockup";
 
+/** Shown on every page (rendered once, in app/layout.tsx). */
 export function SynapseNav() {
   return (
     <SiteNav
       brand={
         <BrandGroup>
-          <SynapseLockup href="#top" label={club.homeLabel} />
+          <SynapseLockup href="/" label={club.homeLabel} />
         </BrandGroup>
       }
       links={navLinks}
-      cta={joinCta}
+      cta={contactCta}
     />
   );
 }
@@ -23,7 +24,7 @@ export function SynapseFooter() {
     <SiteFooter
       brand={
         <BrandGroup onDark>
-          <SynapseLockup href="#top" label={club.topLabel} onDark />
+          <SynapseLockup href="/" label={club.homeLabel} onDark />
         </BrandGroup>
       }
       blurb={footer.blurb}

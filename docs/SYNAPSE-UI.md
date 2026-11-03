@@ -115,25 +115,52 @@ STC's own pages use blue (council), red (DISHA), amber (ARTHNITI) and teal (TATV
 
 ## 5. Site structure
 
-The home page uses the STC club-home pattern. Everything below is built.
+Synapse has **three pages**. The nav (Home, Resources, and a **Contact Us** button) and the footer appear on every page. Everything below is built.
+
+### 5.1 Home (`/`)
 
 | Section | Anchor | Background | Content | Status |
 |---|---|---|---|---|
-| Nav | - | frosted white | Brand group, links (Home, About, What we do, Events, Contact), "Join Synapse" button | Final structure |
-| Hero | `#top` | white to `soft` + glow | Eyebrow "AI · ML · Deep Learning Club", h1, lead, two buttons, emblem card | Headline is draft |
-| About | `#about` | white | Intro, placeholder paragraph, fact card (Council, Wing, Focus) | Facts real; paragraph placeholder |
-| What we do | `#activities` | `soft` | Three icon cards: AI / ML projects, Deep learning, Neural networks | Titles from the STC page; descriptions draft |
-| Featured event | `#events` | white | Facts strip and 3-stage timeline | **All placeholder** |
-| Join | `#join` | `soft` | CTA band: "Ready to build with Synapse?" | Copy draft; "Get involved" has no real form yet |
-| Footer | `#contact` | ink | Brand group, Synapse links, STC links, contact | Synapse's own email/socials missing |
+| Hero | - | white to `soft` + glow | Eyebrow "AI · ML · Deep Learning Club", h1, lead, buttons "Explore resources" and "Ask a doubt", emblem card | Headline is draft |
+| About | `#about` | white | Two paragraphs about the club, and a fact card (Council, Wing, Focus) | Facts and first paragraph from the STC site; second paragraph is draft |
+| Key focus areas | `#focus` | `soft` | Four cards: AI & machine learning, Deep learning, Projects & research, Revision & practice | First three titles from the STC page's key activities; descriptions are draft |
+| Events | `#events` | white | Three event cards (status, date, format, description, action) and a link to Resources | **All sample content** |
 
 Hero emblem: 15rem wide on phones, 19rem from 832 px; 1.5rem corner radius; a soft `--brand` glow; drifts up and down 8 px on a 6 s loop (disabled for reduced motion).
+
+### 5.2 Resources (`/resources`)
+
+| Section | Anchor | Background | Content | Status |
+|---|---|---|---|---|
+| Header | - | white to `soft` + glow | "Everything we share, **in one place**" | Draft |
+| **Revision material shared** | `#materials` | white | Cards for notes, slides and notebooks. Each has **Open material** and **Leaderboard** links, and the section has its own Leaderboard link | Sample content |
+| **Quizzes conducted** | `#quizzes` | `soft` | Quiz cards, each with **View leaderboard**, and the section has an **All leaderboards** link | Sample content |
+| Help band | - | white | "Stuck on something?" with an **Ask a doubt** button to the Contact page | Draft |
+
+Each section and each item can link to a leaderboard. If an item has none (for example a document with no quiz), delete its Leaderboard action. A link that is not filled in yet shows "link coming soon" instead of a dead button.
+
+### 5.3 Contact Us (`/contact`)
+
+| Section | Content |
+|---|---|
+| Header | "Got a doubt? **Ask us**" |
+| Submit a doubt (form) | Name, email, topic, message. Topics: a concept (AI, ML or deep learning), a quiz or its leaderboard, shared revision material, an event, something else |
+| Other ways to reach us | TATVA and STC emails, the address, and a pointer to Resources |
+
+The form checks the details on the server, tells the visitor exactly what to fix (and keeps what they typed), then forwards the doubt as JSON to the address in the `DOUBTS_WEBHOOK_URL` setting. **Until that setting is filled in, the form tells visitors it is not switched on yet and shows the TATVA email instead.** See the README in `synapse-web/` for setup, including a Google Sheets recipe.
 
 ---
 
 ## 6. Content
 
-All text lives in one typed file, `synapse-web/src/synapse/content.ts`. Edit copy there, not in components.
+All text lives in typed files, one per page, in `synapse-web/src/synapse/content/`. Edit copy there, not in components.
+
+| File | What it holds |
+|---|---|
+| `site.ts` | Club name, navigation, footer, address and emails |
+| `home.ts` | Hero, About, Key focus areas, Events |
+| `resources.ts` | Resources header, **Revision material shared**, **Quizzes conducted**, help band |
+| `contact.ts` | Contact header, form labels, topic list, privacy line, success and error messages |
 
 **Facts that come from the STC site (safe to keep):**
 - Club description: "AI, ML & Deep Learning Club", "The AI/ML Club"
@@ -141,11 +168,14 @@ All text lives in one typed file, `synapse-web/src/synapse/content.ts`. Edit cop
 - Key activities: AI/ML projects, Deep learning, Neural networks
 - Address: IIT Patna, Bihta, Patna - 801106; emails `tatva@iitp.ac.in` (TATVA) and `stc_iitp@iitp.ac.in` (STC); STC Instagram and LinkedIn links
 
-**Draft copy (marked `PLACEHOLDER` in the file; replace before publishing):**
+**Draft copy (marked `DRAFT` or `PLACEHOLDER` in the files; confirm or replace before publishing):**
 - Hero headline "Learn AI by **building it**"
-- About paragraph, the three activity descriptions, "Learn it, build it, **break it**"
-- The entire featured-event block (name, dates, facts, stages)
-- Join section text and the "Get involved" target
+- The second About paragraph and the four focus-area descriptions (written from the STC page plus what the club shares and runs)
+- All three Events, all shared materials and all quizzes: each shows a **Sample** tag until you remove `sample: true`
+- Resources and Contact intro lines, and the privacy line under the form ("Your name and email are used only to reply to your doubt"): confirm it matches how the club really handles these details
+- The promise "a Synapse member will reply by email": confirm the club can keep it
+
+**Adding a real material, quiz or event:** copy a sample entry in the relevant file, change the text, put the real link in `href` (a Drive/PDF/slides link, or the leaderboard sheet), and delete `sample: true`. Newest first.
 
 **Writing style:** short sentences, active voice, say what members actually do. The STC UI heading pattern puts the key phrase in the accent colour, so write headings as "plain words + **accent phrase**".
 
@@ -163,7 +193,7 @@ Synapse events use the same nav, footer and components, with an **event skin** (
 - Keep the STC badge, the Synapse lockup and the footer on every event page.
 - Re-check the contrast table (3.3) for the event accent.
 - Use the shared **facts strip** (Format / Duration / Participation / Registration) and **stage timeline**; add a persistent Register button.
-- The event page template itself is not built yet (see STC UI section 5.2 for the recommended order).
+- The event page template itself is not built yet (see STC UI section 5.4 for the recommended order).
 
 ---
 
@@ -171,16 +201,22 @@ Synapse events use the same nav, footer and components, with an **event skin** (
 
 ```
 synapse-web/src/
+  app/
+    layout.tsx           fonts, data-club, nav and footer for every page
+    page.tsx             Home
+    resources/page.tsx   Resources
+    contact/page.tsx     Contact Us
   synapse/
-    theme.css          --brand and the wordmark gradient/font tokens
-    content.ts         all page copy, typed
-    sections.tsx       Hero, About, Activities, FeaturedEvent, Join
-    chrome.tsx         Synapse nav and footer (wire content into the shared shell)
-    lockup.tsx         emblem + wordmark + tagline
-    wordmark.tsx       the gradient "SYNAPSE" text
-    hero-emblem.tsx    hero emblem with the float motion
+    theme.css            --brand and the wordmark gradient/font tokens
+    content/             all page copy, typed: site.ts, home.ts, resources.ts, contact.ts
+    home/                Hero, About, Key focus areas, Events (+ the floating emblem)
+    resources/           Revision material shared, Quizzes conducted, help band
+    contact/             the doubt form, its server-side validation and the server action
+    chrome.tsx           Synapse nav and footer (wire content into the shared shell)
+    lockup.tsx           emblem + wordmark + tagline
+    wordmark.tsx         the gradient "SYNAPSE" text
     assets/synapse-emblem.png
-  stc-ui/              shared layer: do not edit per club
+  stc-ui/                shared layer: do not edit per club
 ```
 
 Run locally (Node 20.9 or newer):
@@ -197,13 +233,16 @@ npm run lint && npm run typecheck
 
 ## 9. Before publishing: checklist
 
-- [ ] Replace placeholder copy (hero, About, activities, featured event, Join)
-- [ ] Point "Get involved" at the real join or registration form
-- [ ] Add Synapse's own email and social links to the footer
+- [ ] Replace placeholder copy and sample items (hero, About, focus areas, events, materials, quizzes) and remove every `sample: true`
+- [ ] Add the real links: each material, each quiz, and every leaderboard (section-level and per item)
+- [ ] **Set up where doubts go**: create the destination (for example a Google Sheet via Apps Script) and set `DOUBTS_WEBHOOK_URL` on the host; send a test doubt. Until then the form shows "not switched on yet"
+- [ ] Decide who reads the doubts, who replies, and how fast, then confirm the "a Synapse member will reply" promise and the privacy line under the form
+- [ ] Add Synapse's own email and social links to the footer and the Contact page
 - [ ] Get a larger or transparent emblem from the club (current file is 304 x 375)
 - [ ] Add a square favicon and a social-share image (neither exists yet)
-- [ ] Decide the domain and hosting
-- [ ] Build the Team, Events and Projects pages if wanted (only the home page exists)
+- [ ] Decide the domain and **hosting**: the doubt form runs on the server, so it needs a Node host (such as Vercel or Netlify), not static file hosting
+- [ ] Consider rate limiting or a CAPTCHA if the form attracts spam (it only has a hidden-field trap and length limits)
+- [ ] Add Team and Projects pages later if wanted (the site is deliberately three pages for now)
 - [ ] Run the contrast table in 3.3 again if any colour changes
 - [ ] Have STC leadership confirm that the STC logo and club logo may be used as shown
 
@@ -212,3 +251,4 @@ npm run lint && npm run typecheck
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: identity, blue accent derived from the logo, home-page structure, content model |
+| 0.2 | 2026-11-05 | Three pages: Home (About, Key focus areas, Events), Resources (Revision material shared, Quizzes conducted, with leaderboard links), Contact Us (doubt form). Content split into one file per page. Brief club and focus-area copy written (draft) |

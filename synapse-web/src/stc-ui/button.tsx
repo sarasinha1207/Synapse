@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import { AppLink, type AppLinkProps } from "./app-link";
 
 export const buttonVariants = cva(
   "inline-flex cursor-pointer items-center justify-center gap-2 rounded-stc border border-transparent text-sm leading-tight font-medium no-underline transition-colors",
@@ -23,9 +23,9 @@ export const buttonVariants = cva(
   },
 );
 
-export type ButtonProps = ComponentProps<"a"> & VariantProps<typeof buttonVariants>;
+export type ButtonProps = AppLinkProps & VariantProps<typeof buttonVariants>;
 
-/** A link that looks like a button. All STC CTAs are links (to a section, a form, or another page). */
+/** A link that looks like a button. Internal routes use next/link; off-site links can pass `external`. */
 export function Button({ className, variant, size, ...props }: ButtonProps) {
-  return <a className={cn(buttonVariants({ variant, size }), className)} {...props} />;
+  return <AppLink className={cn(buttonVariants({ variant, size }), className)} {...props} />;
 }

@@ -1,27 +1,34 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useId, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { AppLink } from "./app-link";
 import { Button } from "./button";
 import { Container } from "./container";
 
 export interface NavLink {
   label: string;
   href: string;
-  /** Marks the current page for assistive tech and styles it as active. */
-  current?: boolean;
 }
 
 interface SiteNavProps {
   /** Usually <BrandGroup>. Server-rendered and passed in as a prop. */
   brand: ReactNode;
   links: NavLink[];
-  cta: { label: string; href: string };
+  /** Optional button-styled link at the right (the STC site has one). */
+  cta?: NavLink;
+}
+
+/** "/" matches only itself; any other route also matches its sub-pages. */
+function isActive(pathname: string, href: string) {
+  return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 }
 
 /** Frosted sticky nav. On phones the links collapse into a menu that closes on Escape or after a tap. */
 export function SiteNav({ brand, links, cta }: SiteNavProps) {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const menuId = useId();
 
@@ -35,6 +42,7 @@ export function SiteNav({ brand, links, cta }: SiteNavProps) {
   }, [open]);
 
   const close = () => setOpen(false);
+  const ctaCurrent = cta && isActive(pathname, cta.href) ? "page" : undefined;
 
   return (
     <header className="sticky top-0 z-50 h-(--nav-h) bg-white/90 shadow-stc-sm backdrop-blur-[10px]">
@@ -53,26 +61,30 @@ export function SiteNav({ brand, links, cta }: SiteNavProps) {
           )}
         >
           {links.map((link) => (
-            <a
+            <AppLink
               key={link.href}
               href={link.href}
               onClick={close}
-              aria-current={link.current ? "page" : undefined}
+              aria-current={isActive(pathname, link.href) ? "page" : undefined}
               className="block rounded-stc px-3.5 py-2 text-sm font-medium text-ink-2 hover:bg-soft aria-[current=page]:bg-brand-tint aria-[current=page]:text-brand"
             >
               {link.label}
-            </a>
+            </AppLink>
           ))}
-          <span className="mt-2 md:hidden">
-            <Button href={cta.href} onClick={close} className="w-full">
-              {cta.label}
-            </Button>
-          </span>
+          {cta ? (
+            <span className="mt-2 md:hidden">
+              <Button href={cta.href} onClick={close} aria-current={ctaCurrent} className="w-full">
+                {cta.label}
+              </Button>
+            </span>
+          ) : null}
         </nav>
 
-        <Button href={cta.href} size="sm" className="hidden md:inline-flex">
-          {cta.label}
-        </Button>
+        {cta ? (
+          <Button href={cta.href} size="sm" aria-current={ctaCurrent} className="hidden md:inline-flex">
+            {cta.label}
+          </Button>
+        ) : null}
 
         <button
           type="button"

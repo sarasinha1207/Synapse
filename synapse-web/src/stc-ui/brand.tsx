@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { AppLink } from "./app-link";
 import stcLogo from "./assets/stc-logo.jpg";
 
 /** The STC logo is a white JPG, so it always sits in a white badge (works on light and dark). */
@@ -40,7 +41,7 @@ interface ClubLockupProps {
 
 export function ClubLockup({ href, label, mark, name, tagline, onDark = false }: ClubLockupProps) {
   return (
-    <a href={href} aria-label={label} className="flex min-w-0 items-center gap-2.5 no-underline">
+    <AppLink href={href} aria-label={label} className="flex min-w-0 items-center gap-2.5 no-underline">
       {mark}
       <span className="grid min-w-0 gap-0.5 leading-tight">
         {name}
@@ -53,6 +54,6 @@ export function ClubLockup({ href, label, mark, name, tagline, onDark = false }:
           {tagline}
         </small>
       </span>
-    </a>
+    </AppLink>
   );
 }

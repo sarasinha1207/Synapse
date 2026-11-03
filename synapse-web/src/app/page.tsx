@@ -1,18 +1,13 @@
-import { SynapseFooter, SynapseNav } from "@/synapse/chrome";
-import { About, Activities, FeaturedEvent, Hero, Join } from "@/synapse/sections";
+import { About, Events, FocusAreas, Hero } from "@/synapse/home/sections";
 
+/** Home: hero, About, Key focus areas, Events. */
 export default function Home() {
   return (
-    <>
-      <SynapseNav />
-      <main id="main">
-        <Hero />
-        <About />
-        <Activities />
-        <FeaturedEvent />
-        <Join />
-      </main>
-      <SynapseFooter />
-    </>
+    <main id="main">
+      <Hero />
+      <About />
+      <FocusAreas />
+      <Events />
+    </main>
   );
 }

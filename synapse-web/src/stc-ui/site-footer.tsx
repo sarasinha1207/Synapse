@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { AppLink } from "./app-link";
 import { Container } from "./container";
 
 export interface FooterColumn {
@@ -25,7 +26,7 @@ const linkClass = "hover:text-white hover:underline focus-visible:outline-white"
 /** Dark navy, four columns, as on stciitphybrid.in: brand + blurb, link columns, contact, legal line. */
 export function SiteFooter({ brand, blurb, columns, contact, legal }: SiteFooterProps) {
   return (
-    <footer id="contact" className="bg-ink pt-14 pb-8 text-on-dark-muted">
+    <footer className="bg-ink pt-14 pb-8 text-on-dark-muted">
       <Container>
         <div className="grid grid-cols-1 gap-10 min-[32rem]:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.4fr]">
           <div className="col-span-full grid content-start gap-4 lg:col-span-1">
@@ -39,9 +40,9 @@ export function SiteFooter({ brand, blurb, columns, contact, legal }: SiteFooter
               <ul className="grid gap-2 text-sm">
                 {column.links.map((link) => (
                   <li key={link.href}>
-                    <a href={link.href} className={linkClass}>
+                    <AppLink href={link.href} className={linkClass}>
                       {link.label}
-                    </a>
+                    </AppLink>
                   </li>
                 ))}
               </ul>

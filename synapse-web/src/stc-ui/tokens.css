@@ -46,6 +46,13 @@
   --color-muted: oklch(0.446 0.03 256.802); /* secondary copy, captions */
   --color-line: oklch(0.928 0.006 264.531); /* borders, dividers */
   --color-on-dark-muted: oklch(0.872 0.01 258.338);
+
+  /* Form fields and status messages (all checked against WCAG AA) */
+  --color-field: oklch(0.551 0.027 264.364); /* gray-500: input borders. 4.84:1 on white; UI boundaries need >= 3:1 (--color-line is only 1.24:1) */
+  --color-danger: oklch(0.505 0.213 27.518); /* red-700: error text. 6.42:1 on white, 5.88:1 on its tint */
+  --color-danger-tint: oklch(0.971 0.013 17.38);
+  --color-success: oklch(0.527 0.154 150.069); /* green-700: confirmation text. 4.94:1 on white, 4.72:1 on its tint */
+  --color-success-tint: oklch(0.982 0.018 155.826);
 }
 
 /* ---- Runtime tokens: these CAN change per club / event ------------------ */

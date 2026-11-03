@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ClubLockup } from "@/stc-ui/brand";
 import emblem from "./assets/synapse-emblem.png";
-import { club } from "./content";
+import { club } from "./content/site";
 import { Wordmark } from "./wordmark";
 
 interface SynapseLockupProps {
