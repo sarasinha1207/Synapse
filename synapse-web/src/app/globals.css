@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* Order matters: shared tokens -> club theme -> (later) event skin. See stc-ui/tokens.css. */
+@import "../stc-ui/tokens.css";
+@import "../synapse/theme.css";
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+  }
+
+  body {
+    @apply bg-white leading-[1.6] text-ink-2 antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+/* =====================================================================
+   SYNAPSE — club theme                                       (layer 2 of 3)
+
+   Sets the club's one accent token (--brand) and holds the club's own
+   logo artwork tokens. Everything else comes from src/stc-ui.
+
+   Keep the selector at specificity (0,1,0) on purpose: an event skin
+   loaded after this file must be able to override --brand using load
+   order alone.
+   ===================================================================== */
+[data-club="synapse"] {
+  /* Accent: a deeper shade of the Synapse logo blue (#118CE5, hue ~248).
+     The logo blue itself is only 3.56:1 on white, too light for button
+     text, so --brand is a darker blue of the same family.
+     Checked: white on --brand 5.4:1, --brand on its 8% tint 4.8:1,
+     fully inside the sRGB gamut. Keep lightness <= ~0.56 so white
+     button text stays >= 4.5:1. */
+  --brand: oklch(0.53 0.18 256); /* ~ #0268d0 */
+}
+
+/* Logo gradient and wordmark font, from the Synapse page on stciitphybrid.in.
+   --font-michroma is set by next/font in app/layout.tsx. */
+@theme inline {
+  --color-synapse-blue: #118ce5;
+  --color-synapse-violet: #9142f6;
+  --font-wordmark: var(--font-michroma), var(--stc-font-sans);
+}

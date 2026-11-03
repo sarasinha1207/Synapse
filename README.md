@@ -1,70 +1,66 @@
-# STC club UI (draft) + Synapse starter page
+# STC club websites: shared UI system and the Synapse site
 
-One design system for every STC club site and every event site, in three layers.
+Website UI/UX work for **Synapse** (the AI/ML club, TATVA wing, Student Technical Council, IIT Patna), plus the shared **STC UI** design system that keeps every STC club and event site looking like one family.
 
-```
-stc-club-ui/
-  tokens.css        layer 1  shared tokens (fonts, greys, radius, shadows, spacing, --brand)
-  components.css    layer 1  shared components (nav, eyebrow, cards, facts, timeline, CTA, footer)
-synapse/
-  synapse.theme.css layer 2  Synapse's accent: sets ONE token, --brand
-  index.html        Synapse home page (starter)
-```
+## Documentation (share these)
 
-Layer 3 (event skins) doesn't exist yet. When an event site is built it adds one more file, e.g. `events/<name>.skin.css`.
-
-## Try it
-
-Open `synapse/index.html` in any browser (double-click). No build step. It loads Outfit from Google Fonts, so it needs internet for the font.
-
-## The rules that keep everything consistent
-
-| Layer | May change | May NOT change |
+| Document | What it covers | Audience |
 |---|---|---|
-| Club theme | `--brand` | everything else |
-| Event skin | `--brand`, `--font-label`, `--label-case`, `--label-tracking` | body/heading font, radius, spacing, layout, components |
+| [`docs/STC-UI.md`](docs/STC-UI.md) | The shared design system: tokens, components, page patterns, event skins, accessibility, how to start a new club site | Other clubs' web developers, STC web leads |
+| [`docs/SYNAPSE-UI.md`](docs/SYNAPSE-UI.md) | Synapse's identity (logo, wordmark, blue accent), site structure, content, pre-publish checklist | Synapse team, anyone building a Synapse event site |
 
-- **Load order is the whole mechanism:** `tokens.css` → `components.css` → club theme → event skin. Keep theme/skin selectors at specificity (0,1,0) (`[data-club="x"]`, `[data-event="x"]`) so a later file wins by order.
-- Put `data-club` and (on event pages) `data-event` on `<html>`.
-- Every tint, hover and gradient is derived from `--brand` with `color-mix()`, so you never pick a second colour.
-- **Contrast:** brand text is safe on white and on `--brand-tint`. Keep `--brand` lightness ≤ ~0.56 so white button text stays ≥ 4.5:1. Don't put brand text on `--brand-tint-2`.
+## Repository layout
 
-### Event skin example (5 lines)
-
-```css
-/* events/evidence-404.skin.css  -- load AFTER the club theme */
-[data-event="evidence-404"] {
-  --brand: oklch(0.5 0.27 293);
-  --font-label: var(--font-mono);   /* also load JetBrains Mono */
-  --label-tracking: 0.12em;
-}
+```
+.
+├── docs/
+│   ├── STC-UI.md          shared design system (layer 1 spec)
+│   └── SYNAPSE-UI.md      Synapse identity and site spec (layer 2 spec)
+├── synapse-web/           the Synapse website: a Next.js app with its own package.json
+│   ├── src/
+│   │   ├── stc-ui/        shared layer: tokens + components (do not edit per club)
+│   │   ├── synapse/       Synapse layer: theme, content, sections, logo
+│   │   ├── app/           Next.js shell: layout, page, global CSS
+│   │   └── lib/           small helpers
+│   ├── package.json       dependencies pinned to exact versions
+│   └── README.md          app-level notes
+├── .editorconfig          editor settings (UTF-8, LF, 2 spaces)
+├── .gitattributes         line-ending and binary-file rules
+├── .gitignore             node_modules, build output, env files, OS/editor files
+└── README.md              this file
 ```
 
-## Still placeholder: replace before publishing
+Future club or event sites go beside `synapse-web/` (for example `evidence-404-web/`), each starting from a copy of `src/stc-ui/` (see `docs/STC-UI.md`, section 8.4).
 
-- **Logo:** the lockup mark in the nav and footer is a generic stand-in (search `TODO` in `index.html`).
-- **Accent colour:** `oklch(0.55 0.24 330)` (≈ `#b716b2`) is a placeholder. Take the real colour from the Synapse logo. It was picked to avoid STC blue, DISHA red, ARTHNITI orange, TATVA teal and WebWiser violet.
-- **Copy:** hero headline, "What we do" descriptions and the About paragraph are draft text. The featured-event block is all placeholder ("Event name", "DD MMM").
-- **Links:** "Get involved" has no real join form yet. Synapse's own email and social links are missing from the footer. The TATVA and STC emails, STC social links and address are taken from stciitphybrid.in.
+## Quick start
 
-## Porting to Next.js + Tailwind v4 (the STC site's stack, inferred)
+Requires Node.js 20.9 or newer.
 
-**Untested sketch, not verified.** Copy `tokens.css` as-is and map the colours you want as Tailwind utilities:
-
-```css
-@import "tailwindcss";
-@import "./stc-club-ui/tokens.css";
-@theme inline {
-  --color-brand: var(--brand);
-  --color-brand-tint: var(--brand-tint);
-  --color-ink: var(--ink);
-}
+```bash
+cd synapse-web
+npm install
+npm run dev
 ```
 
-`components.css` can stay as plain CSS or be translated class-by-class into React components. Check that `font-sans` picks up Outfit after porting; `tokens.css` defines `--font-sans`, but I haven't confirmed how Tailwind resolves it.
+Open <http://localhost:3000>.
 
-## Not done
+| Command (run inside `synapse-web/`) | Purpose |
+|---|---|
+| `npm run dev` | Development server with hot reload |
+| `npm run build` | Production build (downloads the Google fonts once, so it needs internet) |
+| `npm start` | Serve the production build |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript check |
 
-- No dark mode (the STC site is light-only).
-- Only a single page: no Team, Events list or Projects pages yet.
-- Checked in Chromium at 1280 px and 375 px wide. Not tested in Safari/Firefox. `color-mix()` and `oklch()` need browsers from roughly 2023 onward.
+## Conventions
+
+- **Three layers.** STC UI (shared) -> club theme (one accent colour, logo, copy) -> optional event skin. Details and the exact rules are in `docs/STC-UI.md`.
+- **One accent per club.** Set `--brand` in the club's `theme.css`; every tint, hover and gradient derives from it. Do not hard-code other colours.
+- **Do not fork the shared layer.** Fix or improve `src/stc-ui/` once and re-copy it, so all clubs stay identical.
+- **Copy lives in one typed file** (`src/synapse/content.ts`). Anything marked `PLACEHOLDER` is draft text.
+- **Pinned dependencies.** `package.json` uses exact versions and `package-lock.json` is committed. Upgrade deliberately, then run build, lint and typecheck.
+- **Never commit** `node_modules/`, `.next/`, or `.env*` files (all ignored).
+
+## Status
+
+Draft v0.1. The Synapse home page is built and verified (desktop and phone widths, keyboard menu, reduced-motion, contrast). Still to do before publishing is listed in `docs/SYNAPSE-UI.md`, section 9: real copy, join-form link, Synapse contact links, a larger emblem, favicon and share image, and a hosting decision. No licence has been chosen yet.

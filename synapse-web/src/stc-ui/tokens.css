@@ -1,0 +1,125 @@
+/* =====================================================================
+   STC CLUB UI — shared design tokens                         (layer 1 of 3)
+
+   Every STC club site and event site loads THIS file unchanged.
+   A club or event customises the look by setting --brand (and nothing
+   else, apart from the three label tokens below) in its own CSS file:
+
+     layer 1  src/stc-ui/tokens.css       shared, never edited per club
+     layer 2  src/<club>/theme.css        sets --brand for the club
+     layer 3  src/<event>/skin.css        optional: --brand + label tokens
+
+   Load order is the mechanism: tokens -> club theme -> event skin.
+   Keep theme/skin selectors at specificity (0,1,0):
+   [data-club="x"] and [data-event="x"], put on <html>.
+
+   Neutral values are the Tailwind "gray" scale, matching what
+   stciitphybrid.in uses. Font is Outfit, matching the STC site.
+   ===================================================================== */
+
+/* ---- Tokens that never change per club (become Tailwind utilities) ----- */
+@theme {
+  --breakpoint-md: 52rem; /* STC layout switches at 832px */
+  --container-stc: 72rem;
+
+  --radius-stc: 0.625rem;
+  --radius-stc-lg: 1.125rem;
+
+  --shadow-stc-sm: 0 1px 3px rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-stc-md: 0 14px 32px -14px rgb(15 23 42 / 0.22);
+
+  --text-hero: clamp(2.5rem, 1.4rem + 4.2vw, 4rem);
+  --text-hero--line-height: 1.04;
+  --text-hero--letter-spacing: -0.02em;
+  --text-h2: clamp(1.875rem, 1.2rem + 2.4vw, 3rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.01em;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1;
+
+  /* Neutrals (Tailwind gray, as on stciitphybrid.in) */
+  --color-soft: oklch(0.985 0.002 247.839);
+  --color-ink: oklch(0.21 0.034 264.665); /* headings, footer background */
+  --color-ink-2: oklch(0.373 0.034 259.733); /* body copy */
+  --color-muted: oklch(0.446 0.03 256.802); /* secondary copy, captions */
+  --color-line: oklch(0.928 0.006 264.531); /* borders, dividers */
+  --color-on-dark-muted: oklch(0.872 0.01 258.338);
+}
+
+/* ---- Runtime tokens: these CAN change per club / event ------------------ */
+:root {
+  /* Font stacks. --font-outfit is set by next/font in app/layout.tsx. */
+  --stc-font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --stc-font-mono: ui-monospace, "JetBrains Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Label style: eyebrow pills, fact captions, timeline stage tags.
+     EVENT SKINS MAY OVERRIDE THESE THREE (e.g. --font-label: var(--stc-font-mono)). */
+  --font-label: var(--stc-font-sans);
+  --label-case: uppercase;
+  --label-tracking: 0.08em;
+
+  --nav-h: 4rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --section-y: clamp(3.5rem, 8vw, 5rem);
+
+  /* Brand: the ONE colour a club or event chooses. Default = STC council blue. */
+  --brand: oklch(0.546 0.245 262.881);
+  --on-brand: #fff;
+}
+
+/* Everything derived from --brand lives in this rule. The selector list
+   matters: custom properties are resolved on the element that declares
+   them, so the derived tokens must be re-declared wherever a theme or
+   event skin overrides --brand, or they would keep the :root value. */
+:root,
+[data-club],
+[data-event] {
+  --brand-hover: color-mix(in oklch, var(--brand), black 14%);
+  --brand-deep: color-mix(in oklch, var(--brand), black 26%);
+  --brand-end: color-mix(in oklch, var(--brand), white 28%);
+  --brand-tint: color-mix(in oklch, var(--brand) 8%, white);
+  --brand-tint-2: color-mix(in oklch, var(--brand) 16%, white);
+  --brand-line: color-mix(in oklch, var(--brand) 28%, white);
+}
+
+/* `inline` makes utilities read var(--brand) at the point of use, so a
+   club/event override on <html> flows through to every component. */
+@theme inline {
+  --font-sans: var(--stc-font-sans);
+  --font-mono: var(--stc-font-mono);
+
+  --color-brand: var(--brand);
+  --color-on-brand: var(--on-brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-end: var(--brand-end);
+  --color-brand-tint: var(--brand-tint);
+  --color-brand-tint-2: var(--brand-tint-2);
+  --color-brand-line: var(--brand-line);
+}
+
+/* ---- Custom utilities that read the runtime tokens ---------------------- */
+@utility stc-label {
+  font-family: var(--font-label);
+  text-transform: var(--label-case);
+  letter-spacing: var(--label-tracking);
+}
+
+@utility bg-hero {
+  background:
+    radial-gradient(60rem 28rem at 85% -10%, var(--brand-tint-2), transparent 70%),
+    linear-gradient(to bottom right, oklch(0.985 0.002 247.839), #fff);
+}
+
+@utility shadow-brand-glow {
+  box-shadow:
+    0 30px 60px -28px color-mix(in oklch, var(--brand) 60%, transparent),
+    0 1px 3px rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+/* Contrast rule of thumb (checked for the Synapse blue):
+   --brand text is safe on white and on --brand-tint (>= 4.5:1).
+   Do NOT put --brand text on --brand-tint-2 or on --brand-end. */
