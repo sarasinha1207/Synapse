@@ -20,7 +20,7 @@ interface FilterChipsProps<T extends string> {
 /** A row of pill buttons where exactly one is selected. Selected = brand fill; each is a toggle button with aria-pressed. */
 export function FilterChips<T extends string>({ label, options, value, onChange }: FilterChipsProps<T>) {
   return (
-    <div role="group" aria-label={label} className="flex flex-wrap gap-2">
+    <div role="group" aria-label={label} className="flex flex-wrap justify-center gap-2">
       {options.map((option) => {
         const selected = option.value === value;
         return (

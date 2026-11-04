@@ -10,7 +10,8 @@ import { DoubtForm } from "./doubt-form";
 export function ContactSection() {
   return (
     <Section id="doubts" aria-labelledby="doubt-form-title">
-      <div className="grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-start">
+      {/* The form block as a whole sits in the middle of the page; the form's own text stays left-aligned, as forms should. */}
+      <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[1.4fr_1fr] md:items-start">
         <Card interactive={false} className="gap-6 p-6 md:p-8">
           <h2 id="doubt-form-title" className="text-2xl font-bold text-ink">
             {doubtForm.title}

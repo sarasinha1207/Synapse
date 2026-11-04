@@ -15,11 +15,20 @@ export const hero = {
     "Learn the ideas, build projects, and revise together.",
   primary: { label: "Explore resources", href: "/resources" },
   secondary: { label: "Ask a doubt", href: "/contact" },
+  /** Three short proof points under the buttons. They describe what the site really offers. */
+  highlights: [
+    { icon: "flask", label: "Hands-on projects" },
+    { icon: "book", label: "Shared revision material" },
+    { icon: "talks", label: "Webinars & quizzes" },
+  ] as { icon: "flask" | "book" | "talks"; label: string }[],
+  /** Small floating tags around the emblem. Facts from the STC site. */
+  badges: ["TATVA wing", "STC · IIT Patna"],
   emblemAlt: "Synapse emblem: a brain drawn half as an outline and half as a neural network",
 };
 
 export const about = {
   eyebrow: "About us",
+  factsTitle: "At a glance",
   before: "Exploring intelligence, ",
   accent: "one model at a time",
   paragraphs: [

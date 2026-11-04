@@ -21,7 +21,7 @@ interface PageHeaderProps {
 export function PageHeader({ eyebrow, before, accent, lead, children }: PageHeaderProps) {
   return (
     <section className="relative isolate overflow-hidden bg-hero pt-[clamp(2.5rem,6vw,4rem)] pb-[clamp(1.5rem,4vw,2.5rem)]">
-      <Container className="grid justify-items-start gap-5">
+      <Container className="grid justify-items-center gap-5 text-center">
         <Eyebrow>{eyebrow}</Eyebrow>
         <h1 className="text-h2 font-bold text-balance text-ink">
           {before}

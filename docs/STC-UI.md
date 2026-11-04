@@ -165,7 +165,7 @@ Sizes: default (padding 12 x 20, about 44 px tall) and small (padding 8 x 16, ab
 A small pill above a heading: `--brand-tint` background, `--brand` text, label type style, padding 6 x 14 px, fully rounded.
 
 ### 4.4 Section heading (`section-head.tsx`): the STC "two-tone" heading
-Eyebrow pill, then an h2 whose **last words are in `--brand`**, then an optional muted paragraph (max 40rem). Left-aligned by default, centred when the section is a grid of cards. 40 px gap below. An optional action (for example a **Leaderboard** button) can sit at the right of the heading on wide screens.
+Eyebrow pill, then an h2 whose **last words are in `--brand`**, then an optional muted paragraph (max 40rem). **Centred by default** (a left-aligned heading is possible but not used on STC sites). 40 px gap below. An optional action (for example a **Leaderboard** button) can sit at the right of the heading on wide screens.
 Example: "Learn it, build it, **break it**".
 
 ### 4.5 Card (`card.tsx`)
@@ -197,7 +197,7 @@ One link component for the whole site. Routes inside the site (`/resources`) use
 The standard page section: top and bottom padding from 3.3, content inside the container, optional `soft` background. Sections alternate white and `soft` down a page, and each one names its heading with `aria-labelledby`.
 
 ### 4.14 Page header (`page-header.tsx`)
-The opening band of every **inner** page (Resources, Contact...): eyebrow pill, two-tone h1 at section-heading size (30 to 48 px), one lead paragraph, on the same white-to-`soft` gradient with the faint brand glow as the home hero. The home page keeps the larger hero; inner pages use this smaller header so the content starts sooner.
+The opening band of every **inner** page (Resources, Contact...): centred eyebrow pill, two-tone h1 at section-heading size (30 to 48 px), one lead paragraph, on the same white-to-`soft` gradient with the faint brand glow as the home hero. The home page keeps the larger hero; inner pages use this smaller header so the content starts sooner.
 
 ### 4.15 Info row, event card, resource card and filter chips (`info-row.tsx`, `event-card.tsx`, `resource-card.tsx`, `filter-chips.tsx`)
 **Info row.** One fact with its own icon: a 36 px rounded tile in `--brand-tint` holding an 18 px `--brand` icon, then a label (label style, `muted`) above the value (500 weight, `ink`). In "icon only" mode the caption is hidden visually (screen readers still read it) and only the icon and value show; long values such as file names wrap instead of spilling out of the card. Every row of every card uses it, so each kind of information has the same icon everywhere (speaker = microphone, date = calendar, time = clock, platform = screen, document = file, category = tag).
@@ -220,6 +220,11 @@ Rules for forms:
 - Validate on the server (it is the source of truth). Turn off the browser's own pop-up bubbles so every visitor sees the same messages.
 - Ask only for what is needed.
 
+### 4.17 Card grid (`card-grid.tsx`)
+A **centred** grid of equal-width cards (each card in an `<li>`): 1 across on phones, 2 across from 640 px, then 3 (or 4, for the focus areas) across from 1024 px, with a 24 px gap. Because it is built on a wrapping flex row rather than a CSS grid, an incomplete last row, or a single card, stays centred instead of hugging the left edge. Cards inside keep their own text left-aligned.
+
+**Centred layout rule.** On every page except the two opening sections of the home page (the hero and About, which are two-column and left-aligned), the section headings, the filter row, the card grids and the intro bands are centred on the page. Forms keep left-aligned text inside a form card (the card itself is centred), and the dark footer stays left-aligned.
+
 ---
 
 ## 5. Page patterns
@@ -229,8 +234,8 @@ A club site has **four pages**: Home, Events, Resources and Contact Us. The nav 
 ### 5.1 Club home page
 Sections alternate white and `soft` backgrounds:
 
-1. **Hero** (white to `soft` gradient with a faint `--brand-tint-2` glow): eyebrow, two-tone h1, lead paragraph, primary + secondary button; the club's artwork on the right (stacks below on phones)
-2. **About** (white): eyebrow, two-tone h2, a short description of the club in two paragraphs, and a card of key facts (council, wing, focus)
+1. **Hero** (white to `soft` gradient, a faint dot grid and a soft `--brand-tint-2` glow), **left-aligned in two columns**: on the left an eyebrow, two-tone h1, lead paragraph, primary + secondary button, and a divider with three icon highlights; on the right the club's artwork in two faint rings with two small floating tags. On phones the artwork stacks beneath the text
+2. **About** (white), **left-aligned in two columns**: eyebrow, two-tone h2, a larger lead paragraph and a supporting paragraph; beside them an "At a glance" card whose rows (council, wing, focus) each have an icon and divider lines
 3. **Key focus areas** (`soft`): centred heading and eight icon cards in fixed columns (1, then 2 across, then 4 across = two even rows) so no card is left alone on a row
 4. **Events** (white): heading and the next few **upcoming** event cards, with a "See all events" link (or a short note when none are upcoming)
 5. **Where we belong** (`soft`): a heading ("Synapse is part of TATVA") and three short cards side by side: the **purpose of the council**, the **purpose of the wing**, and **how the club completes that vision** (highlighted with the brand tint). Keep it to purpose only: no lists of wings, sub-clubs or statistics
@@ -241,7 +246,7 @@ Anchors: `#about`, `#focus`, `#events`, `#belonging`.
 Page header, then the lists, then (on Resources) a closing CTA band that points to Contact. The page header has little bottom padding and the first section little top padding (about 40 px between them in total), so the content starts close under the heading.
 - **Events:** two sections, **Upcoming events** (white) and **Past events** (`soft`), each a grid of event cards. Upcoming is sorted soonest first and past most recent first; an event moves from one to the other by itself (3 hours after it starts), so the page is rebuilt at least hourly. Each section has a friendly empty message.
 - **Resources:** a single **Browse resources** section with the category filter above one grid of resource cards. Categories are a fixed list (Study material, Revision material, Quiz, Roadmap, Cheat sheet) plus "All". Documents are PDFs kept in the site's `public/resources` folder.
-- Grids use auto-fill columns (cards at least 18 to 20rem wide), so a lone card keeps a normal width and the page copes with 1 item or 30.
+- Cards sit in the **centred card grid** (4.17): equal-width cards, three across on a wide screen, and a short last row or a single card stays in the middle of the page.
 - Everything is filled from typed data files; adding an item means adding one entry.
 
 ### 5.3 Contact page (a "form" page)
@@ -381,6 +386,8 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: tokens, 11 components, club-home pattern, event-skin rules, accessibility baseline. Reference implementation built for Synapse |
+| 0.6 | 2026-11-05 | Home hero and About redesigned: left-aligned two-column layouts instead of centred stacks. Hero gains a dot-grid backdrop, a framed emblem with floating tags and three icon highlights; About gains a lead paragraph and an "At a glance" card |
+| 0.5 | 2026-11-05 | Everything centred: section headings, page headers, the home hero and About, the filter row, and all card grids via the new card grid component (4.17); resource cards narrower (about 350 px) with 20 px padding |
 | 0.4 | 2026-11-05 | Roomier event and resource cards (more padding and spacing, divider lines); resource rows are icon-only; the View button is always a button and is disabled, not replaced by text, when it has no link; tighter space under inner-page headers; "Where we belong" reduced to three purpose cards; focus areas grid for eight cards |
 | 0.3 | 2026-11-05 | Added the Events page and a fourth nav item. New shared components: info row, event card, resource card, filter chips (these replace the generic item card). Resources became one filterable list of documents. New home section "Where we belong". Page pattern 5.2 now covers Events and Resources |
 | 0.2 | 2026-11-05 | Three-page club site (Home, Resources, Contact Us). Added: status and form colours (`field`, `danger`, `success`), components 4.12 to 4.16 (app link, section, page header, item card, form controls), page patterns 5.2 (list) and 5.3 (form), form accessibility rules. Nav links are now routes with a URL-driven current state; the card hover can be switched off |

@@ -3,6 +3,7 @@
 import { FolderOpen } from "lucide-react";
 import { useState } from "react";
 import { Card } from "@/stc-ui/card";
+import { CardGrid } from "@/stc-ui/card-grid";
 import { FilterChips } from "@/stc-ui/filter-chips";
 import { ResourceCard } from "@/stc-ui/resource-card";
 import { formatPlainDate } from "@/lib/format";
@@ -31,13 +32,13 @@ export function ResourceBrowser({ items }: { items: ResourceItem[] }) {
       <FilterChips label="Filter by category" options={options} value={filter} onChange={setFilter} />
 
       {/* Announced to screen readers whenever the filter changes. */}
-      <p role="status" className="text-sm text-muted">
+      <p role="status" className="text-center text-sm text-muted">
         Showing {shown.length} of {items.length} {items.length === 1 ? "resource" : "resources"}
         {label ? ` in ${label}` : ""}
       </p>
 
       {shown.length > 0 ? (
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(17rem,1fr))] gap-6">
+        <CardGrid>
           {shown.map((item) => (
             <li key={item.downloadHref}>
               <ResourceCard
@@ -52,9 +53,9 @@ export function ResourceBrowser({ items }: { items: ResourceItem[] }) {
               />
             </li>
           ))}
-        </ul>
+        </CardGrid>
       ) : (
-        <Card interactive={false} className="flex items-center gap-3 text-muted">
+        <Card interactive={false} className="mx-auto flex max-w-xl items-center justify-center gap-3 text-center text-muted">
           <FolderOpen aria-hidden className="size-5 flex-none text-brand" />
           Nothing in {label ?? "this category"} yet. Check back soon, or pick another category.
         </Card>

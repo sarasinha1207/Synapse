@@ -1,5 +1,6 @@
 import { CalendarX } from "lucide-react";
 import { Card } from "@/stc-ui/card";
+import { CardGrid } from "@/stc-ui/card-grid";
 import { EventCard } from "@/stc-ui/event-card";
 import { Reveal } from "@/stc-ui/reveal";
 import { Section } from "@/stc-ui/section";
@@ -19,7 +20,7 @@ export function splitEvents(items: EventItem[], now: Date = new Date()) {
 /** One card per event. Events can repeat headings (samples do), so the list index is part of the key. */
 export function EventGrid({ items, status }: { items: EventItem[]; status: "Upcoming" | "Past" }) {
   return (
-    <ul className="grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-8">
+    <CardGrid>
       {items.map((event, i) => (
         <li key={`${event.startsAt}-${i}`}>
           <Reveal delay={(i % 3) * 0.08} className="h-full">
@@ -36,13 +37,13 @@ export function EventGrid({ items, status }: { items: EventItem[]; status: "Upco
           </Reveal>
         </li>
       ))}
-    </ul>
+    </CardGrid>
   );
 }
 
 export function EmptyNote({ children }: { children: string }) {
   return (
-    <Card interactive={false} className="flex items-center gap-3 text-muted">
+    <Card interactive={false} className="mx-auto flex max-w-xl items-center justify-center gap-3 text-center text-muted">
       <CalendarX aria-hidden className="size-5 flex-none text-brand" />
       {children}
     </Card>

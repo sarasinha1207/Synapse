@@ -9,6 +9,7 @@ interface SectionHeadProps {
   /** Last words of the heading, shown in --brand (the STC "two-tone" heading). */
   accent: string;
   description?: string;
+  /** Centre the heading block. This is the default: STC sections are centred. Pass false for a left-aligned heading. */
   centered?: boolean;
   /** Optional control on the right (for example a "Leaderboard" button). Ignored when centred. */
   action?: ReactNode;
@@ -22,7 +23,7 @@ export function SectionHead({
   before,
   accent,
   description,
-  centered = false,
+  centered = true,
   action,
   headingId,
   className,
