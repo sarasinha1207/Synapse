@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/stc-ui/page-header";
 import { resourcesHeader } from "@/synapse/content/resources";
-import { HelpSection, MaterialsSection, QuizzesSection } from "@/synapse/resources/sections";
+import { HelpSection, ResourcesList } from "@/synapse/resources/sections";
 
 export const metadata: Metadata = {
   title: "Resources",
-  description: "Revision material shared by Synapse and the quizzes we have conducted, with links to their leaderboards.",
+  description: "Study material, revision guides, quizzes, roadmaps and cheat sheets shared by Synapse. View online or download.",
 };
 
-/** Resources: revision material shared, quizzes conducted (each with a leaderboard link). */
+/** Resources: one filterable list of shared documents. */
 export default function ResourcesPage() {
   return (
     <main id="main">
       <PageHeader {...resourcesHeader} />
-      <MaterialsSection />
-      <QuizzesSection />
+      <ResourcesList />
       <HelpSection />
     </main>
   );

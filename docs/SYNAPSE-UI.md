@@ -115,7 +115,7 @@ STC's own pages use blue (council), red (DISHA), amber (ARTHNITI) and teal (TATV
 
 ## 5. Site structure
 
-Synapse has **three pages**. The nav (Home, Resources, and a **Contact Us** button) and the footer appear on every page. Everything below is built.
+Synapse has **four pages**. The nav (Home, Events, Resources, and a **Contact Us** button) and the footer appear on every page. Everything below is built.
 
 ### 5.1 Home (`/`)
 
@@ -124,22 +124,40 @@ Synapse has **three pages**. The nav (Home, Resources, and a **Contact Us** butt
 | Hero | - | white to `soft` + glow | Eyebrow "AI · ML · Deep Learning Club", h1, lead, buttons "Explore resources" and "Ask a doubt", emblem card | Headline is draft |
 | About | `#about` | white | Two paragraphs about the club, and a fact card (Council, Wing, Focus) | Facts and first paragraph from the STC site; second paragraph is draft |
 | Key focus areas | `#focus` | `soft` | Four cards: AI & machine learning, Deep learning, Projects & research, Revision & practice | First three titles from the STC page's key activities; descriptions are draft |
-| Events | `#events` | white | Three event cards (status, date, format, description, action) and a link to Resources | **All sample content** |
+| Events | `#events` | white | The next (up to three) upcoming event cards and a "See all events" link | Pulled from the Events data, which is **all sample content** for now |
+| Where we belong | `#belonging` | `soft` | "Synapse is part of **TATVA**": an STC card (what it is, 3 wings, 24+ sub-clubs, the three wings with TATVA marked "our wing") and a TATVA card (what it does, five technology domains, nine sub-clubs with Synapse highlighted, the TATVA email), each with a button to the STC site | Facts from the STC site, paraphrased; check they are still current |
 
 Hero emblem: 15rem wide on phones, 19rem from 832 px; 1.5rem corner radius; a soft `--brand` glow; drifts up and down 8 px on a 6 s loop (disabled for reduced motion).
 
-### 5.2 Resources (`/resources`)
+### 5.2 Events (`/events`)
+
+| Section | Anchor | Background | Content | Status |
+|---|---|---|---|---|
+| Header | - | white to `soft` + glow | "Webinars and events, **past and upcoming**" | Draft |
+| Upcoming events | `#upcoming` | white | One card per upcoming event, soonest first | Sample content |
+| Past events | `#past` | `soft` | One card per past event, most recent first | Sample content |
+
+Each card shows: the **event heading**, **About**, **Speaker**, **Date**, **Time** (India time, "6:00 PM IST") and **Platform**, each row with its own icon. You only enter the start date and time once (`startsAt`); the card works out Date and Time, and whether the event is upcoming or past.
+
+### 5.3 Resources (`/resources`)
 
 | Section | Anchor | Background | Content | Status |
 |---|---|---|---|---|
 | Header | - | white to `soft` + glow | "Everything we share, **in one place**" | Draft |
-| **Revision material shared** | `#materials` | white | Cards for notes, slides and notebooks. Each has **Open material** and **Leaderboard** links, and the section has its own Leaderboard link | Sample content |
-| **Quizzes conducted** | `#quizzes` | `soft` | Quiz cards, each with **View leaderboard**, and the section has an **All leaderboards** link | Sample content |
-| Help band | - | white | "Stuck on something?" with an **Ask a doubt** button to the Contact page | Draft |
+| Browse resources | `#documents` | white | A category filter (All, Study material, Revision material, Quiz, Roadmap, Cheat sheet, each with a count) above one grid of document cards | Two real documents so far |
+| Help band | - | `soft` | "Stuck on something?" with an **Ask a doubt** button to the Contact page | Draft |
 
-Each section and each item can link to a leaderboard. If an item has none (for example a document with no quiz), delete its Leaderboard action. A link that is not filled in yet shows "link coming soon" instead of a dead button.
+Each document card shows: the **heading**, the **full document name** (for example `Roadmap.pdf`), the **category**, the **date it was provided**, and two buttons: **View** (a Google Drive link that opens in a new tab) and **Download** (the PDF from the site's own folder). A quiz can also have a **Leaderboard** button.
 
-### 5.3 Contact Us (`/contact`)
+The categories are fixed for now: Study material, Revision material, Quiz, Roadmap, Cheat sheet.
+
+**Documents provided so far** (both filed as Revision material, dated 14 Oct 2026 from the files' own dates; change the dates to the day each was really shared):
+- Supervised Learning Revision Guide: `Supervised_Learning_Revision_Guide.pdf`
+- Python and Libraries Revision Guide: `Python_and_Libraries_Revision_Guide.pdf` (the original file name had the typo "Libaries"; the copy in the site is spelled correctly)
+
+**Where the files live:** `synapse-web/public/resources/`. Put every new PDF there, using file names without spaces. Neither document has its Google Drive "View" link yet, so each card shows "View: link coming soon".
+
+### 5.4 Contact Us (`/contact`)
 
 | Section | Content |
 |---|---|
@@ -158,8 +176,9 @@ All text lives in typed files, one per page, in `synapse-web/src/synapse/content
 | File | What it holds |
 |---|---|
 | `site.ts` | Club name, navigation, footer, address and emails |
-| `home.ts` | Hero, About, Key focus areas, Events |
-| `resources.ts` | Resources header, **Revision material shared**, **Quizzes conducted**, help band |
+| `home.ts` | Hero, About, Key focus areas, the Events preview wording, "Where we belong" (STC and TATVA) |
+| `events.ts` | The Events page: every event (heading, about, speaker, start date and time, platform) |
+| `resources.ts` | The Resources page: the fixed categories and every document (title, file name, category, date, Drive link, download path) |
 | `contact.ts` | Contact header, form labels, topic list, privacy line, success and error messages |
 
 **Facts that come from the STC site (safe to keep):**
@@ -171,11 +190,13 @@ All text lives in typed files, one per page, in `synapse-web/src/synapse/content
 **Draft copy (marked `DRAFT` or `PLACEHOLDER` in the files; confirm or replace before publishing):**
 - Hero headline "Learn AI by **building it**"
 - The second About paragraph and the four focus-area descriptions (written from the STC page plus what the club shares and runs)
-- All three Events, all shared materials and all quizzes: each shows a **Sample** tag until you remove `sample: true`
+- All three Events: each shows a **Sample** tag until you remove `sample: true`. (The two resource documents are real, but their dates and Drive links still need confirming)
 - Resources and Contact intro lines, and the privacy line under the form ("Your name and email are used only to reply to your doubt"): confirm it matches how the club really handles these details
 - The promise "a Synapse member will reply by email": confirm the club can keep it
 
-**Adding a real material, quiz or event:** copy a sample entry in the relevant file, change the text, put the real link in `href` (a Drive/PDF/slides link, or the leaderboard sheet), and delete `sample: true`. Newest first.
+**Adding an event:** copy an entry in `events.ts`, change the text, set `startsAt` (for example `2026-12-15T18:00:00+05:30`), and delete `sample: true`.
+
+**Adding a document:** copy the PDF into `public/resources/`, then copy an entry in `resources.ts` and set its title, file name, category, date, Drive link (`viewHref`) and `downloadHref` (`/resources/<file name>`). Full steps are at the top of that file.
 
 **Writing style:** short sentences, active voice, say what members actually do. The STC UI heading pattern puts the key phrase in the accent colour, so write headings as "plain words + **accent phrase**".
 
@@ -204,13 +225,15 @@ synapse-web/src/
   app/
     layout.tsx           fonts, data-club, nav and footer for every page
     page.tsx             Home
+    events/page.tsx      Events
     resources/page.tsx   Resources
     contact/page.tsx     Contact Us
   synapse/
     theme.css            --brand and the wordmark gradient/font tokens
-    content/             all page copy, typed: site.ts, home.ts, resources.ts, contact.ts
-    home/                Hero, About, Key focus areas, Events (+ the floating emblem)
-    resources/           Revision material shared, Quizzes conducted, help band
+    content/             all page copy and data, typed: site.ts, home.ts, events.ts, resources.ts, contact.ts
+    home/                Hero, About, Key focus areas, Events preview, Where we belong (+ the floating emblem)
+    events/              Upcoming and past events
+    resources/           The filterable document list and the help band
     contact/             the doubt form, its server-side validation and the server action
     chrome.tsx           Synapse nav and footer (wire content into the shared shell)
     lockup.tsx           emblem + wordmark + tagline
@@ -233,8 +256,11 @@ npm run lint && npm run typecheck
 
 ## 9. Before publishing: checklist
 
-- [ ] Replace placeholder copy and sample items (hero, About, focus areas, events, materials, quizzes) and remove every `sample: true`
-- [ ] Add the real links: each material, each quiz, and every leaderboard (section-level and per item)
+- [ ] Replace the placeholder copy (hero, About, focus areas) and the sample events, and remove every `sample: true`
+- [ ] Add the Google Drive "View" link to each document in `resources.ts`, and confirm each document's date
+- [ ] Add the club's other documents (quizzes, study material, roadmaps, cheat sheets) to `public/resources/` and `resources.ts`
+- [ ] Check the "Where we belong" facts (3 wings, 24+ sub-clubs, the TATVA domains and sub-club list) are still current on the STC site
+- [ ] Confirm large PDFs are OK to keep in the site folder (the two so far are 2.3 MB and 5.5 MB)
 - [ ] **Set up where doubts go**: create the destination (for example a Google Sheet via Apps Script) and set `DOUBTS_WEBHOOK_URL` on the host; send a test doubt. Until then the form shows "not switched on yet"
 - [ ] Decide who reads the doubts, who replies, and how fast, then confirm the "a Synapse member will reply" promise and the privacy line under the form
 - [ ] Add Synapse's own email and social links to the footer and the Contact page
@@ -242,7 +268,7 @@ npm run lint && npm run typecheck
 - [ ] Add a square favicon and a social-share image (neither exists yet)
 - [ ] Decide the domain and **hosting**: the doubt form runs on the server, so it needs a Node host (such as Vercel or Netlify), not static file hosting
 - [ ] Consider rate limiting or a CAPTCHA if the form attracts spam (it only has a hidden-field trap and length limits)
-- [ ] Add Team and Projects pages later if wanted (the site is deliberately three pages for now)
+- [ ] Add Team and Projects pages later if wanted (the site is deliberately four pages for now)
 - [ ] Run the contrast table in 3.3 again if any colour changes
 - [ ] Have STC leadership confirm that the STC logo and club logo may be used as shown
 
@@ -251,4 +277,5 @@ npm run lint && npm run typecheck
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: identity, blue accent derived from the logo, home-page structure, content model |
+| 0.3 | 2026-11-05 | Added the Events page (heading, about, speaker, date, time, platform) and a fourth nav item. Resources redesigned: one filterable list of documents (heading, file name, category, date, View and Download) with the first two PDFs added. Home gained a closing "Where we belong" section about STC and TATVA. Google Sheets setup for the doubts form added |
 | 0.2 | 2026-11-05 | Three pages: Home (About, Key focus areas, Events), Resources (Revision material shared, Quizzes conducted, with leaderboard links), Contact Us (doubt form). Content split into one file per page. Brief club and focus-area copy written (draft) |

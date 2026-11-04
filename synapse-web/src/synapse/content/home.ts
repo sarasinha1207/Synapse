@@ -1,9 +1,9 @@
 /**
- * Home page copy: hero, About, Key focus areas, Events.
- * Facts come from the Synapse page on stciitphybrid.in. Wording marked DRAFT is ours: confirm or edit it.
+ * Home page copy: hero, About, Key focus areas, Events preview, and "Synapse inside TATVA".
+ * Facts come from the Synapse, TATVA and home pages on stciitphybrid.in (paraphrased). Wording marked DRAFT is ours.
+ * Events themselves live in events.ts.
  */
 import type { Fact } from "@/stc-ui/facts-strip";
-import type { ItemCardProps } from "@/stc-ui/item-card";
 
 export const hero = {
   eyebrow: "AI · ML · Deep Learning Club",
@@ -72,44 +72,71 @@ export const focus = {
     {
       icon: "checklist",
       title: "Revision & practice",
-      description: "Shared revision material and regular quizzes with leaderboards, so learning sticks.",
+      description: "Shared revision material and regular quizzes, so learning sticks.",
     },
   ] satisfies FocusArea[],
 };
 
-export const events = {
+/** The Events preview on the home page: the next few upcoming events from events.ts. */
+export const eventsPreview = {
   eyebrow: "Events",
   before: "Join our next ",
   accent: "event",
-  description: "Workshops, talks, quizzes and competitions run by Synapse.",
-  // PLACEHOLDER: every entry below is sample content (it shows a "Sample" tag). Replace with real events, and
-  // delete `sample: true`. Leave an action's `href` out until the link exists.
-  items: [
-    {
-      title: "Event name",
-      tag: "Upcoming",
-      meta: ["DD MMM YYYY", "Online / On campus"],
-      description: "One or two sentences on what the event is and who it is for.",
-      sample: true,
-      actions: [{ label: "Register", icon: "register", variant: "primary" }],
-    },
-    {
-      title: "Past event name",
-      tag: "Past",
-      meta: ["DD MMM YYYY", "Online"],
-      description: "A short recap of what happened and what was covered.",
-      sample: true,
-      actions: [{ label: "View recap", icon: "open" }],
-    },
-    {
-      title: "Past event name",
-      tag: "Past",
-      meta: ["DD MMM YYYY", "On campus"],
-      description: "A short recap of what happened and what was covered.",
-      sample: true,
-      actions: [{ label: "View recap", icon: "open" }],
-    },
-  ] satisfies ItemCardProps[],
-  resourcesPrompt: "Looking for notes or past quizzes?",
-  resourcesLink: { label: "Visit Resources", href: "/resources" },
+  description: "Webinars and talks run by Synapse.",
+  limit: 3,
+  empty: "No upcoming events right now. See what we have run before.",
+  allLink: { label: "See all events", href: "/events" },
+};
+
+/** Last section of the home page: where Synapse sits inside TATVA and STC. */
+export const belonging = {
+  eyebrow: "Where we belong",
+  before: "Synapse is part of ",
+  accent: "TATVA",
+  description: "TATVA is the technology and research wing of the Student Technical Council (STC) at IIT Patna.",
+  stc: {
+    title: "Student Technical Council",
+    subtitle: "IIT Patna Hybrid Programs",
+    text:
+      "STC is a reimagined, upgraded version of the former Technology Club: a central, well-structured platform " +
+      "for the academic and professional goals of students.",
+    stats: [
+      { value: "3", label: "wings" },
+      { value: "24+", label: "sub-clubs" },
+    ],
+    wings: [
+      { name: "DISHA", role: "Career Growth and Training Cell" },
+      { name: "ARTHNITI", role: "Entrepreneurship and Innovation Cell" },
+      { name: "TATVA", role: "Technology and Research Cell", current: true },
+    ],
+    action: { label: "Visit the STC website", href: "https://www.stciitphybrid.in/" },
+  },
+  tatva: {
+    title: "TATVA",
+    subtitle: "Technology & Research Cell",
+    text:
+      "TATVA builds technical skill and a research mindset through workshops, seminars, hackathons and " +
+      "collaborative research, connecting students with industry experts and tech communities.",
+    domainsTitle: "Technology domains",
+    domains: [
+      "Web and mobile development",
+      "Artificial intelligence & machine learning",
+      "Data science & analytics",
+      "Cybersecurity & ethical hacking",
+      "Robotics & automation",
+    ],
+    clubsTitle: "TATVA sub-clubs",
+    clubs: [
+      { name: "WebWiser" },
+      { name: "Pixelerate" },
+      { name: "Appistry" },
+      { name: "Analytical Arena" },
+      { name: "Synapse", current: true },
+      { name: "HackShield" },
+      { name: "CodeRED" },
+      { name: "Mech-X" },
+      { name: "Tech Hub" },
+    ],
+    action: { label: "Explore TATVA", href: "https://www.stciitphybrid.in/wings/tatva" },
+  },
 };

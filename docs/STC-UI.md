@@ -199,12 +199,16 @@ The standard page section: top and bottom padding from 3.3, content inside the c
 ### 4.14 Page header (`page-header.tsx`)
 The opening band of every **inner** page (Resources, Contact...): eyebrow pill, two-tone h1 at section-heading size (30 to 48 px), one lead paragraph, on the same white-to-`soft` gradient with the faint brand glow as the home hero. The home page keeps the larger hero; inner pages use this smaller header so the content starts sooner.
 
-### 4.15 Item card (`item-card.tsx`)
-A card for one thing a visitor might want to open: an event, a shared document, a quiz. Top to bottom: small pills (a status or type such as "Upcoming" or "PDF" in `--brand-tint`; a "Sample" pill with a `field` border for draft content), title (20 px / 700), a muted facts line (date · format), a short description, then action buttons at the bottom.
-- Actions are small buttons with an icon (open, download, file, leaderboard, register). While a link does not exist yet (no `href`), the card shows a muted "link coming soon" note instead of a dead button, so nothing on the page is broken.
-- External links open in a new tab and say so to screen readers.
-- The "Sample" pill marks placeholder content so it cannot be mistaken for real content. Remove the flag when the item is real.
-- The same card is used for events, materials and quizzes, so a visitor learns the pattern once.
+### 4.15 Info row, event card, resource card and filter chips (`info-row.tsx`, `event-card.tsx`, `resource-card.tsx`, `filter-chips.tsx`)
+**Info row.** One labelled fact with its own icon: a 32 px rounded tile in `--brand-tint` holding a 16 px `--brand` icon, then a label (label style, `muted`) above the value (500 weight, `ink`). Every row of every card uses it, so each kind of information has the same icon everywhere (speaker = microphone, date = calendar, time = clock, platform = screen, document = file, category = tag).
+
+**Event card** (a webinar or event). Top to bottom: a status pill ("Upcoming" or "Past", `--brand-tint`) and, for draft content, a "Sample" pill with a `field` border; the **event heading** (20 px / 700); then five info rows: **About**, **Speaker**, **Date**, **Time**, **Platform**. Date and time are shown in India time ("15 Dec 2026", "6:00 PM IST").
+
+**Resource card** (a shared document). A 44 px icon tile beside the **heading**; then three info rows: **Document** (the full file name, such as `Roadmap.pdf`), **Category** (a pill) and **Provided on** (date); then the buttons: **View** (opens the Google Drive link in a new tab), **Download** (saves the PDF from the site's own `public/resources` folder) and, only when one exists, **Leaderboard**. While a link does not exist yet, the card shows a muted "View: link coming soon" note instead of a dead button.
+
+**Filter chips.** A row of pill buttons where exactly one is selected (brand fill when selected, `field` border otherwise), each showing how many items it would reveal. They are toggle buttons (`aria-pressed`) in a labelled group. A live "Showing 2 of 2 resources in Revision material" line is announced to screen readers when the choice changes, and an empty category shows a friendly message instead of a blank page.
+
+Shared rules: external links open in a new tab and say so to screen readers; the "Sample" pill marks placeholder content so it cannot be mistaken for real content (remove the flag when the item is real).
 
 ### 4.16 Form controls (`form.tsx`)
 Text input, select and text area share one look: white background, 1 px `field` border (4.84:1, see 3.2), radius 10, padding 10 x 14 px, 16 px text. Focus = `--brand` border plus a 2 px `--brand` outline. Invalid = `danger` border.
@@ -220,7 +224,7 @@ Rules for forms:
 
 ## 5. Page patterns
 
-A club site has **three pages**: Home, Resources and Contact Us. The nav and footer belong to the page shell (the layout), not to each page.
+A club site has **four pages**: Home, Events, Resources and Contact Us. The nav and footer belong to the page shell (the layout), not to each page.
 
 ### 5.1 Club home page
 Sections alternate white and `soft` backgrounds:
@@ -228,15 +232,17 @@ Sections alternate white and `soft` backgrounds:
 1. **Hero** (white to `soft` gradient with a faint `--brand-tint-2` glow): eyebrow, two-tone h1, lead paragraph, primary + secondary button; the club's artwork on the right (stacks below on phones)
 2. **About** (white): eyebrow, two-tone h2, a short description of the club in two paragraphs, and a card of key facts (council, wing, focus)
 3. **Key focus areas** (`soft`): centred heading and four icon cards. Use fixed columns for a fixed number of items (1 column, then 2 x 2, then 4 across) so no card is left alone on a row
-4. **Events** (white): heading and a grid of item cards (status pill, date and format, short description, action), plus a line pointing to Resources
+4. **Events** (white): heading and the next few **upcoming** event cards, with a "See all events" link (or a short note when none are upcoming)
+5. **Where we belong** (`soft`): a heading ("Synapse is part of TATVA") and two cards side by side: one about the council (what STC is, the number of wings and sub-clubs, the three wings with the club's own wing marked) and one about the wing (what it does, its technology domains, its sub-clubs as pills with this club highlighted, a contact email). Each card ends with a button to the matching page on the STC site, opening in a new tab
 
-Anchors: `#about`, `#focus`, `#events`.
+Anchors: `#about`, `#focus`, `#events`, `#belonging`.
 
-### 5.2 Resources page (a "list" page)
-Page header, then one section per list (a heading and a grid of item cards), then a closing CTA band that points to Contact.
-- Reference sections: **Revision material shared** (white) and **Quizzes conducted** (`soft`). Each section carries one link to its **leaderboard** at the right of the heading, and each item card can carry its own leaderboard link.
-- Newest items first. Lists are auto-fit grids (cards at least 18rem wide), so they work for 1 item or 30.
-- Everything is filled from one typed data file; adding an item means adding one entry.
+### 5.2 Events and Resources pages ("list" pages)
+Page header, then the lists, then (on Resources) a closing CTA band that points to Contact.
+- **Events:** two sections, **Upcoming events** (white) and **Past events** (`soft`), each a grid of event cards. Upcoming is sorted soonest first and past most recent first; an event moves from one to the other by itself (3 hours after it starts), so the page is rebuilt at least hourly. Each section has a friendly empty message.
+- **Resources:** a single **Browse resources** section with the category filter above one grid of resource cards. Categories are a fixed list (Study material, Revision material, Quiz, Roadmap, Cheat sheet) plus "All". Documents are PDFs kept in the site's `public/resources` folder.
+- Grids use auto-fill columns (cards at least 18 to 20rem wide), so a lone card keeps a normal width and the page copes with 1 item or 30.
+- Everything is filled from typed data files; adding an item means adding one entry.
 
 ### 5.3 Contact page (a "form" page)
 Page header, then a two-column section: the form in a static card on the left (wider), and an "Other ways to reach us" card on the right (emails, address, a pointer to Resources). They stack on phones.
@@ -365,7 +371,7 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 - Light theme only (the STC site is light only); no dark mode.
 - Three page patterns are built (home, list, form). The **event page template is specified in 5.4 but not yet built**.
 - The doubt form needs a Node host and a destination URL, and has no rate limiting or CAPTCHA (see 5.3).
-- The Resources lists have no search or filter yet; they are meant for tens of items, not hundreds.
+- The Resources list has a category filter but no text search; it is meant for tens of documents, not hundreds. Documents live in the site folder, so very many or very large files would be better served from Drive.
 - The shared layer is copied between projects; extracting it into a versioned package (for example an npm workspace `@stc/ui`) is the next step once a second club site exists.
 - No design-token export for non-web tools (Figma variables) yet.
 - Hex values for the wing accents are approximate readings of the live site, not an official palette.
@@ -375,4 +381,5 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: tokens, 11 components, club-home pattern, event-skin rules, accessibility baseline. Reference implementation built for Synapse |
+| 0.3 | 2026-11-05 | Added the Events page and a fourth nav item. New shared components: info row, event card, resource card, filter chips (these replace the generic item card). Resources became one filterable list of documents. New home section "Where we belong". Page pattern 5.2 now covers Events and Resources |
 | 0.2 | 2026-11-05 | Three-page club site (Home, Resources, Contact Us). Added: status and form colours (`field`, `danger`, `success`), components 4.12 to 4.16 (app link, section, page header, item card, form controls), page patterns 5.2 (list) and 5.3 (form), form accessibility rules. Nav links are now routes with a URL-driven current state; the card hover can be switched off |

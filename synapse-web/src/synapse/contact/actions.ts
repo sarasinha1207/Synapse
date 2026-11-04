@@ -35,6 +35,14 @@ export async function submitDoubt(_previous: DoubtState, formData: FormData): Pr
       cache: "no-store",
     });
     if (!response.ok) throw new Error(`destination answered with HTTP ${response.status}`);
+    // Google Apps Script always answers HTTP 200, even for its own errors, and puts the outcome in a JSON reply
+    // ({ ok: false, error }). Treat that as a failure too. Other destinations (plain "ok") are unaffected.
+    if (response.headers.get("content-type")?.includes("application/json")) {
+      const result: unknown = await response.json().catch(() => null);
+      if (result && typeof result === "object" && "ok" in result && result.ok === false) {
+        throw new Error("destination reported an error");
+      }
+    }
   } catch (error) {
     // Log the reason only. Never log the visitor's name, email or message.
     console.error("[doubt-form] could not deliver a doubt:", error instanceof Error ? error.message : "unknown error");

@@ -1,6 +1,6 @@
 # synapse-web
 
-The Synapse club website: a Next.js app built on the shared STC UI layer. It has three pages.
+The Synapse club website: a Next.js app built on the shared STC UI layer. It has four pages.
 
 **Stack:** Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v4 · class-variance-authority + tailwind-merge · motion · lucide-react · ESLint.
 
@@ -8,8 +8,9 @@ The Synapse club website: a Next.js app built on the shared STC UI layer. It has
 
 | Route | Page | What is on it |
 |---|---|---|
-| `/` | Home | Hero, **About**, **Key focus areas**, **Events** |
-| `/resources` | Resources | **Revision material shared** and **Quizzes conducted**, each with leaderboard links |
+| `/` | Home | Hero, **About**, **Key focus areas**, **Events** preview, **Where we belong** (STC and TATVA) |
+| `/events` | Events | Upcoming and past webinars: heading, about, speaker, date, time, platform |
+| `/resources` | Resources | A category filter and document cards: heading, file name, category, date, **View** and **Download** |
 | `/contact` | Contact Us | A form for submitting doubts, plus other ways to reach the club |
 
 ## Run
@@ -36,19 +37,25 @@ src/
   app/        Next.js shell: layout.tsx (fonts, data-club, nav + footer), one folder per route
   stc-ui/     shared layer: tokens.css + components + STC logo. Do not edit per club.
   synapse/    Synapse layer
-    content/    all copy, typed: site.ts, home.ts, resources.ts, contact.ts
-    home/       Hero, About, Key focus areas, Events
-    resources/  Revision material shared, Quizzes conducted, help band
+    content/    all copy and data, typed: site.ts, home.ts, events.ts, resources.ts, contact.ts
+    home/       Hero, About, Key focus areas, Events preview, Where we belong
+    events/     Upcoming and past events
+    resources/  The filterable document list, help band
     contact/    doubt form, server-side validation, server action
     theme.css   --brand (the accent colour)
-  lib/        utils.ts (class-name helper that knows the STC token names)
+  lib/        utils.ts (class-name helper), format.ts (dates and times, India time)
+public/
+  resources/  the shared PDFs, served at /resources/<file name>
+integrations/
+  google-sheets/  Apps Script + steps for sending doubts to a Google Sheet
 ```
 
 ## Everyday tasks
 
 - **Change text:** edit the file for that page in `src/synapse/content/`. Anything marked `DRAFT` or `PLACEHOLDER` is draft copy to confirm.
-- **Add a shared document, a quiz or an event:** copy a sample entry in `content/resources.ts` (materials, quizzes) or `content/home.ts` (events), change the text, put the real link in `href`, and delete `sample: true` (that removes the "Sample" tag). While a link's `href` is missing, the card shows "link coming soon".
-- **Leaderboard links:** each material, each quiz, and each section has a "Leaderboard" action. Fill its `href` with the leaderboard URL (for example a Google Sheet), or delete the action if there is none.
+- **Add a document:** copy the PDF into `public/resources/` (file name without spaces), then copy an entry in `content/resources.ts`: set `title`, `fileName`, `category` (study, revision, quiz, roadmap or cheatsheet), `date`, `viewHref` (the Google Drive link, opens in a new tab) and `downloadHref` (`/resources/<fileName>`). Until `viewHref` exists the card says "View: link coming soon". A quiz can also get a `leaderboardHref`.
+- **Add an event:** copy an entry in `content/events.ts` and set `startsAt` (for example `2026-12-15T18:00:00+05:30`). Delete `sample: true` to remove the "Sample" tag. Upcoming or past is worked out automatically.
+- **Add a category:** one line in `resourceCategories` in `content/resources.ts`; the filter picks it up.
 - **Change the accent colour:** edit the single `--brand` line in `src/synapse/theme.css`, then re-check contrast (`../docs/SYNAPSE-UI.md`, section 3.3).
 - **Replace a logo:** overwrite the file in `src/stc-ui/assets/` or `src/synapse/assets/` and keep the file name.
 - **Add an event skin:** `../docs/STC-UI.md`, section 6.
@@ -67,26 +74,15 @@ Each doubt arrives as:
   "message": "...", "submittedAt": "2026-11-05T10:00:00.000Z", "source": "synapse-web" }
 ```
 
-**Recipe: send doubts to a Google Sheet** (not tested against Google itself; the form side was tested against a local stand-in):
+**Google Sheets:** a ready-to-paste Apps Script and click-by-click steps are in [`integrations/google-sheets/`](integrations/google-sheets/README.md). It has to be set up in the club's own Google account. The website side was tested against a local imitation of Apps Script's replies; the script itself has not been run against Google.
 
-1. Create a Google Sheet with the header row `Time, Name, Email, Topic, Message`.
-2. Extensions → Apps Script. Replace the code with:
-
-   ```js
-   function doPost(e) {
-     const data = JSON.parse(e.postData.contents);
-     SpreadsheetApp.getActiveSheet().appendRow([new Date(), data.name, data.email, data.topic, data.message]);
-     return ContentService.createTextOutput("ok");
-   }
-   ```
-3. Deploy → New deployment → type **Web app**, execute as **Me**, access **Anyone** → copy the web app URL → use it as `DOUBTS_WEBHOOK_URL`.
-
-Anyone who learns that URL can post to it, so keep it in the environment variable only.
+Anyone who learns the destination URL can post to it, so keep it in the environment variable only.
 
 **Behaviour notes**
 
 - Needs a Node host. A static export (`output: "export"`) cannot run the form.
 - Spam protection is a hidden field that people never see (bots tend to fill it; those submissions are dropped silently) plus length limits. There is no rate limiting or CAPTCHA.
+- Google Apps Script always answers HTTP 200 and reports its own errors in a JSON body, so the form treats a reply of `{"ok": false}` as a failure too (tested).
 - Failures are logged without the visitor's details (only the reason, for example `fetch failed`).
 - Tested against a local stand-in destination: empty form, partly invalid input (the chosen topic is kept), a valid doubt (delivered once, with the right JSON), a bot submission (not delivered), destination unreachable, and no destination configured.
 

@@ -11,9 +11,10 @@ export const club = {
   homeLabel: "Synapse, the AI/ML Club: home",
 } as const;
 
-/** The site has exactly three pages: Home, Resources, Contact Us (Contact Us is the button at the right of the nav). */
+/** Four pages: Home, Events, Resources, Contact Us (Contact Us is the button at the right of the nav). */
 export const navLinks: NavLink[] = [
   { label: "Home", href: "/" },
+  { label: "Events", href: "/events" },
   { label: "Resources", href: "/resources" },
 ];
 export const contactCta: NavLink = { label: "Contact Us", href: "/contact" };
@@ -34,6 +35,7 @@ export const footer = {
       title: "Synapse",
       links: [
         { label: "Home", href: "/" },
+        { label: "Events", href: "/events" },
         { label: "Resources", href: "/resources" },
         { label: "Contact Us", href: "/contact" },
       ],

@@ -1,0 +1,13 @@
+{
+  "name": "synapse-club-website",
+  "private": true,
+  "description": "Convenience scripts so the Synapse site can be run from this folder. The app itself lives in synapse-web/.",
+  "scripts": {
+    "setup": "npm --prefix synapse-web install",
+    "dev": "npm --prefix synapse-web run dev",
+    "build": "npm --prefix synapse-web run build",
+    "start": "npm --prefix synapse-web run start",
+    "lint": "npm --prefix synapse-web run lint",
+    "typecheck": "npm --prefix synapse-web run typecheck"
+  }
+}
