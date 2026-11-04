@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Michroma, Outfit } from "next/font/google";
+import { Orbitron, Outfit } from "next/font/google";
 import { SynapseFooter, SynapseNav } from "@/synapse/chrome";
 import "./globals.css";
 
-// Outfit = the STC family font. Michroma = the Synapse wordmark only.
+// Outfit = the STC family font. Orbitron = the Synapse wordmark only.
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: "swap" });
-const michroma = Michroma({ subsets: ["latin"], weight: "400", variable: "--font-michroma", display: "swap" });
+const orbitron = Orbitron({ subsets: ["latin"], variable: "--font-orbitron", display: "swap" });
 
 const description =
   "Synapse is the AI, ML and deep learning club of the Student Technical Council, IIT Patna. Hands-on projects, shared revision material, quizzes and events.";
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       lang="en"
       data-club="synapse"
       data-scroll-behavior="smooth"
-      className={`${outfit.variable} ${michroma.variable}`}
+      className={`${outfit.variable} ${orbitron.variable}`}
     >
       <body>
         {/* Reveal animations start hidden; without JavaScript, show everything. */}

@@ -19,9 +19,9 @@
 }
 
 /* Logo gradient and wordmark font, from the Synapse page on stciitphybrid.in.
-   --font-michroma is set by next/font in app/layout.tsx. */
+   --font-orbitron is set by next/font in app/layout.tsx. */
 @theme inline {
   --color-synapse-blue: #118ce5;
   --color-synapse-violet: #9142f6;
-  --font-wordmark: var(--font-michroma), var(--stc-font-sans);
+  --font-wordmark: var(--font-orbitron), var(--stc-font-sans);
 }

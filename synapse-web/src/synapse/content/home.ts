@@ -1,5 +1,5 @@
 /**
- * Home page copy: hero, About, Key focus areas, Events preview, and "Synapse inside TATVA".
+ * Home page copy: hero, About, Key focus areas, Events preview, and "Where we belong".
  * Facts come from the Synapse, TATVA and home pages on stciitphybrid.in (paraphrased). Wording marked DRAFT is ours.
  * Events themselves live in events.ts.
  */
@@ -38,7 +38,7 @@ export const about = {
   ] satisfies Fact[],
 };
 
-export type FocusIcon = "cpu" | "network" | "flask" | "checklist";
+export type FocusIcon = "cpu" | "network" | "flask" | "checklist" | "code" | "vision" | "language" | "talks";
 
 export interface FocusArea {
   icon: FocusIcon;
@@ -50,9 +50,11 @@ export const focus = {
   eyebrow: "Key focus areas",
   before: "What we ",
   accent: "focus on",
-  description: "Four areas shape everything Synapse does.",
+  description: "Eight areas shape everything Synapse does.",
   // The first three titles come from the STC page's key activities (AI/ML projects, deep learning, neural networks).
-  // The descriptions are DRAFT. "Revision & practice" reflects the Resources page.
+  // "Revision & practice", "Python & libraries" and "Webinars & talks" reflect what the club shares and runs.
+  // DRAFT: all descriptions, and especially "Computer vision" and "Natural language processing": confirm the club
+  // really covers them, or replace them with the topics it does cover.
   items: [
     {
       icon: "cpu",
@@ -65,9 +67,29 @@ export const focus = {
       description: "How neural networks learn, from a single neuron to modern architectures.",
     },
     {
+      icon: "code",
+      title: "Python & libraries",
+      description: "The everyday toolkit of data and AI work, learned by writing real code.",
+    },
+    {
+      icon: "vision",
+      title: "Computer vision",
+      description: "Teaching machines to understand images and video.",
+    },
+    {
+      icon: "language",
+      title: "Natural language processing",
+      description: "How computers read, understand and generate human language.",
+    },
+    {
       icon: "flask",
       title: "Projects & research",
       description: "Turning concepts into working projects, with room to explore research topics.",
+    },
+    {
+      icon: "talks",
+      title: "Webinars & talks",
+      description: "Sessions with speakers that connect classroom ideas to real-world practice.",
     },
     {
       icon: "checklist",
@@ -88,55 +110,41 @@ export const eventsPreview = {
   allLink: { label: "See all events", href: "/events" },
 };
 
-/** Last section of the home page: where Synapse sits inside TATVA and STC. */
+export type BelongingIcon = "council" | "wing" | "club";
+
+/**
+ * Last section of the home page: why STC and TATVA exist, and how Synapse completes that vision.
+ * Purposes are paraphrased from the STC "About" text and the TATVA page on stciitphybrid.in.
+ * The third card is DRAFT wording: confirm it says what the club wants to say.
+ */
 export const belonging = {
   eyebrow: "Where we belong",
   before: "Synapse is part of ",
   accent: "TATVA",
-  description: "TATVA is the technology and research wing of the Student Technical Council (STC) at IIT Patna.",
-  stc: {
-    title: "Student Technical Council",
-    subtitle: "IIT Patna Hybrid Programs",
-    text:
-      "STC is a reimagined, upgraded version of the former Technology Club: a central, well-structured platform " +
-      "for the academic and professional goals of students.",
-    stats: [
-      { value: "3", label: "wings" },
-      { value: "24+", label: "sub-clubs" },
-    ],
-    wings: [
-      { name: "DISHA", role: "Career Growth and Training Cell" },
-      { name: "ARTHNITI", role: "Entrepreneurship and Innovation Cell" },
-      { name: "TATVA", role: "Technology and Research Cell", current: true },
-    ],
-    action: { label: "Visit the STC website", href: "https://www.stciitphybrid.in/" },
-  },
-  tatva: {
-    title: "TATVA",
-    subtitle: "Technology & Research Cell",
-    text:
-      "TATVA builds technical skill and a research mindset through workshops, seminars, hackathons and " +
-      "collaborative research, connecting students with industry experts and tech communities.",
-    domainsTitle: "Technology domains",
-    domains: [
-      "Web and mobile development",
-      "Artificial intelligence & machine learning",
-      "Data science & analytics",
-      "Cybersecurity & ethical hacking",
-      "Robotics & automation",
-    ],
-    clubsTitle: "TATVA sub-clubs",
-    clubs: [
-      { name: "WebWiser" },
-      { name: "Pixelerate" },
-      { name: "Appistry" },
-      { name: "Analytical Arena" },
-      { name: "Synapse", current: true },
-      { name: "HackShield" },
-      { name: "CodeRED" },
-      { name: "Mech-X" },
-      { name: "Tech Hub" },
-    ],
-    action: { label: "Explore TATVA", href: "https://www.stciitphybrid.in/wings/tatva" },
-  },
+  description: "How the council, its technology wing and our club fit together.",
+  cards: [
+    {
+      icon: "council",
+      title: "Purpose of STC",
+      text:
+        "The Student Technical Council exists to give IIT Patna students one central, well-structured platform " +
+        "for their academic and professional aspirations.",
+    },
+    {
+      icon: "wing",
+      title: "Purpose of TATVA",
+      text:
+        "TATVA, the technology and research wing, builds technical expertise and a research mindset, bridging " +
+        "academic learning and real-world technology so students become future-ready technologists.",
+    },
+    {
+      icon: "club",
+      title: "How Synapse completes the vision",
+      text:
+        "AI and machine learning are among the technologies TATVA wants students to master. Synapse is where that " +
+        "happens in practice: learning the ideas together, building projects, and revising through shared " +
+        "material and quizzes.",
+      highlight: true,
+    },
+  ] satisfies { icon: BelongingIcon; title: string; text: string; highlight?: boolean }[],
 };

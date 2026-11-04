@@ -14,12 +14,13 @@ interface PageHeaderProps {
 }
 
 /**
- * Opening band of every inner page (Resources, Contact...): eyebrow, two-tone h1, lead paragraph.
- * The home page uses a bigger hero instead; inner pages use this smaller header so the content starts sooner.
+ * Opening band of every inner page (Events, Resources, Contact...): eyebrow, two-tone h1, lead paragraph.
+ * The home page uses a bigger hero instead. The bottom padding is deliberately small so the content
+ * underneath starts close to the heading.
  */
 export function PageHeader({ eyebrow, before, accent, lead, children }: PageHeaderProps) {
   return (
-    <section className="relative isolate overflow-hidden bg-hero py-[clamp(2.5rem,6vw,4.5rem)]">
+    <section className="relative isolate overflow-hidden bg-hero pt-[clamp(2.5rem,6vw,4rem)] pb-[clamp(1.5rem,4vw,2.5rem)]">
       <Container className="grid justify-items-start gap-5">
         <Eyebrow>{eyebrow}</Eyebrow>
         <h1 className="text-h2 font-bold text-balance text-ink">

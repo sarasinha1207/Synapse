@@ -200,11 +200,11 @@ The standard page section: top and bottom padding from 3.3, content inside the c
 The opening band of every **inner** page (Resources, Contact...): eyebrow pill, two-tone h1 at section-heading size (30 to 48 px), one lead paragraph, on the same white-to-`soft` gradient with the faint brand glow as the home hero. The home page keeps the larger hero; inner pages use this smaller header so the content starts sooner.
 
 ### 4.15 Info row, event card, resource card and filter chips (`info-row.tsx`, `event-card.tsx`, `resource-card.tsx`, `filter-chips.tsx`)
-**Info row.** One labelled fact with its own icon: a 32 px rounded tile in `--brand-tint` holding a 16 px `--brand` icon, then a label (label style, `muted`) above the value (500 weight, `ink`). Every row of every card uses it, so each kind of information has the same icon everywhere (speaker = microphone, date = calendar, time = clock, platform = screen, document = file, category = tag).
+**Info row.** One fact with its own icon: a 36 px rounded tile in `--brand-tint` holding an 18 px `--brand` icon, then a label (label style, `muted`) above the value (500 weight, `ink`). In "icon only" mode the caption is hidden visually (screen readers still read it) and only the icon and value show; long values such as file names wrap instead of spilling out of the card. Every row of every card uses it, so each kind of information has the same icon everywhere (speaker = microphone, date = calendar, time = clock, platform = screen, document = file, category = tag).
 
 **Event card** (a webinar or event). Top to bottom: a status pill ("Upcoming" or "Past", `--brand-tint`) and, for draft content, a "Sample" pill with a `field` border; the **event heading** (20 px / 700); then five info rows: **About**, **Speaker**, **Date**, **Time**, **Platform**. Date and time are shown in India time ("15 Dec 2026", "6:00 PM IST").
 
-**Resource card** (a shared document). A 44 px icon tile beside the **heading**; then three info rows: **Document** (the full file name, such as `Roadmap.pdf`), **Category** (a pill) and **Provided on** (date); then the buttons: **View** (opens the Google Drive link in a new tab), **Download** (saves the PDF from the site's own `public/resources` folder) and, only when one exists, **Leaderboard**. While a link does not exist yet, the card shows a muted "View: link coming soon" note instead of a dead button.
+**Resource card** (a shared document). A 48 px icon tile beside the **heading**; a divider; then three **icon-only** rows with no captions: the full file name (such as `Roadmap.pdf`), the category (a pill) and the date it was provided; a divider; then the buttons. **View** opens the Google Drive link in a new tab; **Download** saves the PDF from the site's own `public/resources` folder; a **Leaderboard** button appears only when one exists. **View is always a button**: while no link has been added it is dimmed, cannot be clicked and does nothing (there is no "coming soon" text). Cards use 20 px padding and 24 px gaps, three across on a wide screen (each about 350 px wide).
 
 **Filter chips.** A row of pill buttons where exactly one is selected (brand fill when selected, `field` border otherwise), each showing how many items it would reveal. They are toggle buttons (`aria-pressed`) in a labelled group. A live "Showing 2 of 2 resources in Revision material" line is announced to screen readers when the choice changes, and an empty category shows a friendly message instead of a blank page.
 
@@ -231,14 +231,14 @@ Sections alternate white and `soft` backgrounds:
 
 1. **Hero** (white to `soft` gradient with a faint `--brand-tint-2` glow): eyebrow, two-tone h1, lead paragraph, primary + secondary button; the club's artwork on the right (stacks below on phones)
 2. **About** (white): eyebrow, two-tone h2, a short description of the club in two paragraphs, and a card of key facts (council, wing, focus)
-3. **Key focus areas** (`soft`): centred heading and four icon cards. Use fixed columns for a fixed number of items (1 column, then 2 x 2, then 4 across) so no card is left alone on a row
+3. **Key focus areas** (`soft`): centred heading and eight icon cards in fixed columns (1, then 2 across, then 4 across = two even rows) so no card is left alone on a row
 4. **Events** (white): heading and the next few **upcoming** event cards, with a "See all events" link (or a short note when none are upcoming)
-5. **Where we belong** (`soft`): a heading ("Synapse is part of TATVA") and two cards side by side: one about the council (what STC is, the number of wings and sub-clubs, the three wings with the club's own wing marked) and one about the wing (what it does, its technology domains, its sub-clubs as pills with this club highlighted, a contact email). Each card ends with a button to the matching page on the STC site, opening in a new tab
+5. **Where we belong** (`soft`): a heading ("Synapse is part of TATVA") and three short cards side by side: the **purpose of the council**, the **purpose of the wing**, and **how the club completes that vision** (highlighted with the brand tint). Keep it to purpose only: no lists of wings, sub-clubs or statistics
 
 Anchors: `#about`, `#focus`, `#events`, `#belonging`.
 
 ### 5.2 Events and Resources pages ("list" pages)
-Page header, then the lists, then (on Resources) a closing CTA band that points to Contact.
+Page header, then the lists, then (on Resources) a closing CTA band that points to Contact. The page header has little bottom padding and the first section little top padding (about 40 px between them in total), so the content starts close under the heading.
 - **Events:** two sections, **Upcoming events** (white) and **Past events** (`soft`), each a grid of event cards. Upcoming is sorted soonest first and past most recent first; an event moves from one to the other by itself (3 hours after it starts), so the page is rebuilt at least hourly. Each section has a friendly empty message.
 - **Resources:** a single **Browse resources** section with the category filter above one grid of resource cards. Categories are a fixed list (Study material, Revision material, Quiz, Roadmap, Cheat sheet) plus "All". Documents are PDFs kept in the site's `public/resources` folder.
 - Grids use auto-fill columns (cards at least 18 to 20rem wide), so a lone card keeps a normal width and the page copes with 1 item or 30.
@@ -358,7 +358,7 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 | Keep 10 px radius and the shared shadows | Square or heavily rounded corners on cards and buttons |
 | Put brand text only on white, `soft` or `--brand-tint` | Put brand text on `--brand-tint-2` or `--brand-end` |
 | Keep page copy in typed content files, one per page | Scatter copy across components |
-| Leave an item's link empty until it exists (the card says "link coming soon") | Ship `#` placeholder links that go nowhere |
+| Leave an item's link empty until it exists (its button is then dimmed and does nothing) | Ship `#` placeholder links that go nowhere |
 | Mark draft content with the "Sample" pill | Publish placeholder text that looks real |
 | Use `field` for input borders | Use the faint `line` grey on a form control |
 | Keep what a visitor typed when a form shows an error | Clear the form on error |
@@ -381,5 +381,6 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: tokens, 11 components, club-home pattern, event-skin rules, accessibility baseline. Reference implementation built for Synapse |
+| 0.4 | 2026-11-05 | Roomier event and resource cards (more padding and spacing, divider lines); resource rows are icon-only; the View button is always a button and is disabled, not replaced by text, when it has no link; tighter space under inner-page headers; "Where we belong" reduced to three purpose cards; focus areas grid for eight cards |
 | 0.3 | 2026-11-05 | Added the Events page and a fourth nav item. New shared components: info row, event card, resource card, filter chips (these replace the generic item card). Resources became one filterable list of documents. New home section "Where we belong". Page pattern 5.2 now covers Events and Resources |
 | 0.2 | 2026-11-05 | Three-page club site (Home, Resources, Contact Us). Added: status and form colours (`field`, `danger`, `success`), components 4.12 to 4.16 (app link, section, page header, item card, form controls), page patterns 5.2 (list) and 5.3 (form), form accessibility rules. Nav links are now routes with a URL-driven current state; the card hover can be switched off |

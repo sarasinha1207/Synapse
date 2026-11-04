@@ -19,7 +19,7 @@ export function splitEvents(items: EventItem[], now: Date = new Date()) {
 /** One card per event. Events can repeat headings (samples do), so the list index is part of the key. */
 export function EventGrid({ items, status }: { items: EventItem[]; status: "Upcoming" | "Past" }) {
   return (
-    <ul className="grid grid-cols-[repeat(auto-fill,minmax(18rem,1fr))] gap-6">
+    <ul className="grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-8">
       {items.map((event, i) => (
         <li key={`${event.startsAt}-${i}`}>
           <Reveal delay={(i % 3) * 0.08} className="h-full">
@@ -54,7 +54,8 @@ export function EventsSections() {
   const { upcoming: up, past: pa } = eventsSections;
   return (
     <>
-      <Section id="upcoming" aria-labelledby="upcoming-title">
+      {/* The first section sits close under the page header (smaller top padding). */}
+      <Section id="upcoming" aria-labelledby="upcoming-title" className="pt-8 md:pt-10">
         <SectionHead headingId="upcoming-title" eyebrow={up.eyebrow} before={up.before} accent={up.accent} description={up.description} />
         {upcoming.length > 0 ? <EventGrid items={upcoming} status="Upcoming" /> : <EmptyNote>{up.empty}</EmptyNote>}
       </Section>

@@ -1,14 +1,16 @@
 import {
   ArrowRight,
-  Briefcase,
+  Brain,
+  Code2,
   Cpu,
   FlaskConical,
   Landmark,
   Layers,
   ListChecks,
-  Mail,
+  MessageSquareText,
+  Mic,
   Network,
-  Rocket,
+  ScanEye,
   type LucideIcon,
 } from "lucide-react";
 import { AppLink } from "@/stc-ui/app-link";
@@ -20,9 +22,8 @@ import { Reveal } from "@/stc-ui/reveal";
 import { Section } from "@/stc-ui/section";
 import { SectionHead } from "@/stc-ui/section-head";
 import { cn } from "@/lib/utils";
-import { about, belonging, eventsPreview, focus, hero, type FocusIcon } from "../content/home";
+import { about, belonging, eventsPreview, focus, hero, type BelongingIcon, type FocusIcon } from "../content/home";
 import { events } from "../content/events";
-import { reach } from "../content/site";
 import { EmptyNote, EventGrid, splitEvents } from "../events/sections";
 import { HeroEmblem } from "./hero-emblem";
 
@@ -31,6 +32,16 @@ const focusIcons: Record<FocusIcon, LucideIcon> = {
   network: Network,
   flask: FlaskConical,
   checklist: ListChecks,
+  code: Code2,
+  vision: ScanEye,
+  language: MessageSquareText,
+  talks: Mic,
+};
+
+const belongingIcons: Record<BelongingIcon, LucideIcon> = {
+  council: Landmark,
+  wing: Layers,
+  club: Brain,
 };
 
 export function Hero() {
@@ -97,13 +108,13 @@ export function FocusAreas() {
   return (
     <Section id="focus" tone="soft" aria-labelledby="focus-title">
       <SectionHead centered headingId="focus-title" {...head} />
-      {/* Exactly four items, so use fixed columns (1, then 2x2, then 4 across) rather than auto-fit, which would leave a lone card. */}
+      {/* Exactly eight items, so use fixed columns (1, then 2 across, then 4 across = two even rows) rather than auto-fit. */}
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item, i) => {
           const Icon = focusIcons[item.icon];
           return (
             <li key={item.title}>
-              <Reveal delay={i * 0.08} className="h-full">
+              <Reveal delay={(i % 4) * 0.08} className="h-full">
                 <Card className="h-full">
                   <CardIcon>
                     <Icon aria-hidden className="size-6" strokeWidth={1.75} />
@@ -138,118 +149,33 @@ export function Events() {
   );
 }
 
-/** Last home section: Synapse sits inside the TATVA wing of STC. One card about STC, one about TATVA. */
+/** Last home section: why STC and TATVA exist, and how Synapse completes that vision (three short cards). */
 export function Belonging() {
-  const { stc, tatva, ...head } = belonging;
-  const wingIcons = [Briefcase, Rocket, FlaskConical];
+  const { cards, ...head } = belonging;
   return (
     <Section id="belonging" tone="soft" aria-labelledby="belonging-title">
       <SectionHead headingId="belonging-title" {...head} />
-      <div className="grid gap-6 md:grid-cols-2">
-        <Reveal className="h-full">
-          <Card interactive={false} className="flex h-full flex-col gap-5 p-6 md:p-8">
-            <div className="flex items-center gap-3">
-              <CardIcon>
-                <Landmark aria-hidden className="size-6" strokeWidth={1.75} />
-              </CardIcon>
-              <div>
-                <h3 className="text-xl leading-tight font-bold text-ink">{stc.title}</h3>
-                <p className="text-sm text-muted">{stc.subtitle}</p>
-              </div>
-            </div>
-            <p className="text-[0.9375rem] text-ink-2">{stc.text}</p>
-            <dl className="flex gap-8">
-              {stc.stats.map((stat) => (
-                <div key={stat.label}>
-                  <dt className="sr-only">{stat.label}</dt>
-                  <dd>
-                    <span className="block text-3xl leading-none font-bold text-brand">{stat.value}</span>
-                    <span className="stc-label text-label font-medium text-muted">{stat.label}</span>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <ul className="grid gap-3">
-              {stc.wings.map((wing, i) => {
-                const Icon = wingIcons[i % wingIcons.length];
-                return (
-                  <li
-                    key={wing.name}
-                    className={cn(
-                      "flex items-start gap-3 rounded-stc border p-3",
-                      wing.current ? "border-brand-line bg-brand-tint" : "border-line bg-white",
-                    )}
-                  >
-                    <Icon aria-hidden className="mt-0.5 size-5 flex-none text-brand" />
-                    <span className="text-[0.9375rem]">
-                      <strong className="font-semibold text-ink">{wing.name}</strong>
-                      {wing.current ? <span className="font-medium text-brand"> (our wing)</span> : null}
-                      <span className="block text-muted">{wing.role}</span>
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-            <Button href={stc.action.href} external variant="secondary" className="mt-auto self-start">
-              {stc.action.label}
-              <span className="sr-only"> (opens in a new tab)</span>
-            </Button>
-          </Card>
-        </Reveal>
-
-        <Reveal delay={0.1} className="h-full">
-          <Card interactive={false} className="flex h-full flex-col gap-5 p-6 md:p-8">
-            <div className="flex items-center gap-3">
-              <CardIcon>
-                <Layers aria-hidden className="size-6" strokeWidth={1.75} />
-              </CardIcon>
-              <div>
-                <h3 className="text-xl leading-tight font-bold text-ink">{tatva.title}</h3>
-                <p className="text-sm text-muted">{tatva.subtitle}</p>
-              </div>
-            </div>
-            <p className="text-[0.9375rem] text-ink-2">{tatva.text}</p>
-            <div>
-              <h4 className="stc-label mb-2 text-label font-medium text-muted">{tatva.domainsTitle}</h4>
-              <ul className="grid gap-1.5 text-[0.9375rem] text-ink-2">
-                {tatva.domains.map((domain) => (
-                  <li key={domain} className="flex items-start gap-2">
-                    <Cpu aria-hidden className="mt-1 size-4 flex-none text-brand" />
-                    {domain}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="stc-label mb-2 text-label font-medium text-muted">{tatva.clubsTitle}</h4>
-              <ul className="flex flex-wrap gap-2">
-                {tatva.clubs.map((club) => (
-                  <li
-                    key={club.name}
-                    className={cn(
-                      "rounded-full border px-3 py-1 text-sm font-medium",
-                      club.current ? "border-brand bg-brand text-on-brand" : "border-field bg-white text-ink-2",
-                    )}
-                  >
-                    {club.name}
-                    {club.current ? <span className="sr-only"> (this club)</span> : null}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <p className="flex items-center gap-2 text-[0.9375rem]">
-              <Mail aria-hidden className="size-4 flex-none text-brand" />
-              <a href={`mailto:${reach.emails[0].email}`} className="font-medium text-ink hover:text-brand hover:underline">
-                {reach.emails[0].email}
-              </a>
-            </p>
-            <Button href={tatva.action.href} external variant="secondary" className="mt-auto self-start">
-              {tatva.action.label}
-              <span className="sr-only"> (opens in a new tab)</span>
-            </Button>
-          </Card>
-        </Reveal>
-      </div>
+      <ul className="grid gap-6 md:grid-cols-3">
+        {cards.map((card, i) => {
+          const Icon = belongingIcons[card.icon];
+          return (
+            <li key={card.title}>
+              <Reveal delay={i * 0.1} className="h-full">
+                <Card
+                  interactive={false}
+                  className={cn("h-full gap-4 p-7", card.highlight && "border-brand-line bg-brand-tint")}
+                >
+                  <CardIcon className={card.highlight ? "bg-white" : undefined}>
+                    <Icon aria-hidden className="size-6" strokeWidth={1.75} />
+                  </CardIcon>
+                  <h3 className="text-xl leading-tight font-bold text-ink">{card.title}</h3>
+                  <p className="text-[0.9375rem] text-ink-2">{card.text}</p>
+                </Card>
+              </Reveal>
+            </li>
+          );
+        })}
+      </ul>
     </Section>
   );
 }

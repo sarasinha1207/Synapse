@@ -37,7 +37,7 @@ export function ResourceBrowser({ items }: { items: ResourceItem[] }) {
       </p>
 
       {shown.length > 0 ? (
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-6">
+        <ul className="grid grid-cols-[repeat(auto-fill,minmax(17rem,1fr))] gap-6">
           {shown.map((item) => (
             <li key={item.downloadHref}>
               <ResourceCard

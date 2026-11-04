@@ -20,15 +20,17 @@ export interface EventCardProps {
 /** A webinar or event: heading, then About, Speaker, Date, Time and Platform, each with its own icon. */
 export function EventCard({ title, about, speaker, date, time, platform, status, sample }: EventCardProps) {
   return (
-    <Card className="flex h-full flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="stc-label rounded-full bg-brand-tint px-2.5 py-1 text-label font-semibold text-brand">{status}</span>
-        {sample ? (
-          <span className="stc-label rounded-full border border-field px-2.5 py-1 text-label font-medium text-muted">Sample</span>
-        ) : null}
+    <Card className="flex h-full flex-col gap-6 p-7 md:p-8">
+      <div className="grid gap-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="stc-label rounded-full bg-brand-tint px-3 py-1.5 text-label font-semibold text-brand">{status}</span>
+          {sample ? (
+            <span className="stc-label rounded-full border border-field px-3 py-1.5 text-label font-medium text-muted">Sample</span>
+          ) : null}
+        </div>
+        <h3 className="text-xl leading-snug font-bold text-ink">{title}</h3>
       </div>
-      <h3 className="text-xl leading-tight font-bold text-ink">{title}</h3>
-      <dl className="grid gap-3.5">
+      <dl className="grid gap-5 border-t border-line pt-6">
         <InfoRow icon={Info} label="About">
           <span className="font-normal text-ink-2">{about}</span>
         </InfoRow>

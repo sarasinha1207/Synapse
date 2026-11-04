@@ -42,8 +42,8 @@ The emblem and the STC logo were copied from the STC website (`/DomainCards/Syna
 
 ### 2.2 Wordmark
 - Text: **SYNAPSE** (uppercase), set as live text, not an image.
-- Font: **Michroma**, regular (400) only, from Google Fonts. Used for the wordmark and nowhere else.
-- Size: 17 px in the nav and footer; letter-spacing 0.02em; line height 1.1.
+- Font: **Orbitron**, bold (700), from Google Fonts. Used for the wordmark and nowhere else. (It replaced Michroma, whose single light weight looked thin at nav size.)
+- Size: 17 px in the nav and footer; letter-spacing 0.06em; line height 1.1.
 - Fill: a left-to-right gradient, `linear-gradient(90deg, #118CE5 0%, #9142F6 90%)` (blue to violet), applied to the text with `background-clip: text`. These are the colours used by the wordmark on the club's STC page.
 - The gradient belongs to the wordmark only. Do not use it for buttons, backgrounds, headings or body text.
 
@@ -123,9 +123,9 @@ Synapse has **four pages**. The nav (Home, Events, Resources, and a **Contact Us
 |---|---|---|---|---|
 | Hero | - | white to `soft` + glow | Eyebrow "AI · ML · Deep Learning Club", h1, lead, buttons "Explore resources" and "Ask a doubt", emblem card | Headline is draft |
 | About | `#about` | white | Two paragraphs about the club, and a fact card (Council, Wing, Focus) | Facts and first paragraph from the STC site; second paragraph is draft |
-| Key focus areas | `#focus` | `soft` | Four cards: AI & machine learning, Deep learning, Projects & research, Revision & practice | First three titles from the STC page's key activities; descriptions are draft |
+| Key focus areas | `#focus` | `soft` | Eight cards: AI & machine learning, Deep learning, Python & libraries, Computer vision, Natural language processing, Projects & research, Webinars & talks, Revision & practice | AI & ML, deep learning and projects come from the STC page; Python, webinars and revision reflect what the club shares and runs; **Computer vision and NLP are drafts: confirm the club covers them or swap the topics**. All descriptions are draft |
 | Events | `#events` | white | The next (up to three) upcoming event cards and a "See all events" link | Pulled from the Events data, which is **all sample content** for now |
-| Where we belong | `#belonging` | `soft` | "Synapse is part of **TATVA**": an STC card (what it is, 3 wings, 24+ sub-clubs, the three wings with TATVA marked "our wing") and a TATVA card (what it does, five technology domains, nine sub-clubs with Synapse highlighted, the TATVA email), each with a button to the STC site | Facts from the STC site, paraphrased; check they are still current |
+| Where we belong | `#belonging` | `soft` | "Synapse is part of **TATVA**" with three cards: **Purpose of STC** (one central, well-structured platform for students' academic and professional aspirations), **Purpose of TATVA** (technical expertise and a research mindset, bridging academic learning and real-world technology) and **How Synapse completes the vision** (AI/ML is where TATVA's aim happens in practice: learning, projects, revision) | Purposes paraphrased from the STC site; the third card is draft |
 
 Hero emblem: 15rem wide on phones, 19rem from 832 px; 1.5rem corner radius; a soft `--brand` glow; drifts up and down 8 px on a 6 s loop (disabled for reduced motion).
 
@@ -147,7 +147,7 @@ Each card shows: the **event heading**, **About**, **Speaker**, **Date**, **Time
 | Browse resources | `#documents` | white | A category filter (All, Study material, Revision material, Quiz, Roadmap, Cheat sheet, each with a count) above one grid of document cards | Two real documents so far |
 | Help band | - | `soft` | "Stuck on something?" with an **Ask a doubt** button to the Contact page | Draft |
 
-Each document card shows: the **heading**, the **full document name** (for example `Roadmap.pdf`), the **category**, the **date it was provided**, and two buttons: **View** (a Google Drive link that opens in a new tab) and **Download** (the PDF from the site's own folder). A quiz can also have a **Leaderboard** button.
+Each document card shows: the **heading**, then three icon-only rows (the **full document name**, for example `Roadmap.pdf`; the **category**; the **date it was provided**), and two buttons: **View** (a Google Drive link that opens in a new tab) and **Download** (the PDF from the site's own folder). A quiz can also have a **Leaderboard** button.
 
 The categories are fixed for now: Study material, Revision material, Quiz, Roadmap, Cheat sheet.
 
@@ -155,7 +155,7 @@ The categories are fixed for now: Study material, Revision material, Quiz, Roadm
 - Supervised Learning Revision Guide: `Supervised_Learning_Revision_Guide.pdf`
 - Python and Libraries Revision Guide: `Python_and_Libraries_Revision_Guide.pdf` (the original file name had the typo "Libaries"; the copy in the site is spelled correctly)
 
-**Where the files live:** `synapse-web/public/resources/`. Put every new PDF there, using file names without spaces. Neither document has its Google Drive "View" link yet, so each card shows "View: link coming soon".
+**Where the files live:** `synapse-web/public/resources/`. Put every new PDF there, using file names without spaces. Neither document has its Google Drive "View" link yet, so the **View** button on each card is dimmed and does nothing until you add the link.
 
 ### 5.4 Contact Us (`/contact`)
 
@@ -259,7 +259,7 @@ npm run lint && npm run typecheck
 - [ ] Replace the placeholder copy (hero, About, focus areas) and the sample events, and remove every `sample: true`
 - [ ] Add the Google Drive "View" link to each document in `resources.ts`, and confirm each document's date
 - [ ] Add the club's other documents (quizzes, study material, roadmaps, cheat sheets) to `public/resources/` and `resources.ts`
-- [ ] Check the "Where we belong" facts (3 wings, 24+ sub-clubs, the TATVA domains and sub-club list) are still current on the STC site
+- [ ] Read the "Where we belong" wording (purpose of STC, purpose of TATVA, how Synapse completes the vision) and confirm it says what the club wants to say
 - [ ] Confirm large PDFs are OK to keep in the site folder (the two so far are 2.3 MB and 5.5 MB)
 - [ ] **Set up where doubts go**: create the destination (for example a Google Sheet via Apps Script) and set `DOUBTS_WEBHOOK_URL` on the host; send a test doubt. Until then the form shows "not switched on yet"
 - [ ] Decide who reads the doubts, who replies, and how fast, then confirm the "a Synapse member will reply" promise and the privacy line under the form
@@ -277,5 +277,6 @@ npm run lint && npm run typecheck
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: identity, blue accent derived from the logo, home-page structure, content model |
+| 0.4 | 2026-11-05 | Wordmark font changed to Orbitron bold. "Where we belong" cut down to three purpose cards. Eight focus areas. Events and Resources: tighter space under the header, roomier cards. Resource rows are icon-only and View is always a (possibly disabled) button |
 | 0.3 | 2026-11-05 | Added the Events page (heading, about, speaker, date, time, platform) and a fourth nav item. Resources redesigned: one filterable list of documents (heading, file name, category, date, View and Download) with the first two PDFs added. Home gained a closing "Where we belong" section about STC and TATVA. Google Sheets setup for the doubts form added |
 | 0.2 | 2026-11-05 | Three pages: Home (About, Key focus areas, Events), Resources (Revision material shared, Quizzes conducted, with leaderboard links), Contact Us (doubt form). Content split into one file per page. Brief club and focus-area copy written (draft) |

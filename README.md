@@ -13,7 +13,7 @@ Website UI/UX work for **Synapse** (the AI/ML club, TATVA wing, Student Technica
 
 | Page | Route | Sections |
 |---|---|---|
-| Home | `/` | About, Key focus areas, Events preview, Where we belong (STC and TATVA) |
+| Home | `/` | About, Key focus areas, Events preview, Where we belong (purpose of STC and TATVA, and Synapse's role) |
 | Events | `/events` | Upcoming and past webinars (heading, about, speaker, date, time, platform) |
 | Resources | `/resources` | A category filter and document cards (heading, file name, category, date, View and Download) |
 | Contact Us | `/contact` | A form for submitting doubts |

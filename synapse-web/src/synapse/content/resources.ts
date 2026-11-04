@@ -12,8 +12,8 @@
  *       fileName      the full file name, e.g. "Roadmap.pdf" (must match the file in public/resources/)
  *       category      one of the fixed categories below
  *       date          the date it was provided, "YYYY-MM-DD"
- *       viewHref      the Google Drive link that opens the document in a new tab (leave out until you have it:
- *                     the card then shows "View: link coming soon")
+ *       viewHref      the Google Drive link that opens the document in a new tab (leave it out until you have it:
+ *                     the View button is then dimmed and does nothing)
  *       downloadHref  "/resources/<fileName>"
  *       leaderboardHref  optional; add it for quizzes that have a leaderboard
  *  3. Newest first is the usual order, but the order here is the order on the page.

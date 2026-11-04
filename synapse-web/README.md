@@ -8,7 +8,7 @@ The Synapse club website: a Next.js app built on the shared STC UI layer. It has
 
 | Route | Page | What is on it |
 |---|---|---|
-| `/` | Home | Hero, **About**, **Key focus areas**, **Events** preview, **Where we belong** (STC and TATVA) |
+| `/` | Home | Hero, **About**, **Key focus areas**, **Events** preview, **Where we belong** (purpose of STC and TATVA, and how Synapse completes it) |
 | `/events` | Events | Upcoming and past webinars: heading, about, speaker, date, time, platform |
 | `/resources` | Resources | A category filter and document cards: heading, file name, category, date, **View** and **Download** |
 | `/contact` | Contact Us | A form for submitting doubts, plus other ways to reach the club |
@@ -25,7 +25,7 @@ npm run dev          # http://localhost:3000
 | Script | Purpose |
 |---|---|
 | `npm run dev` | Development server |
-| `npm run build` | Production build (downloads the Outfit and Michroma Google fonts once, so it needs internet) |
+| `npm run build` | Production build (downloads the Outfit and Orbitron Google fonts once, so it needs internet) |
 | `npm start` | Serve the production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript check |
@@ -53,7 +53,7 @@ integrations/
 ## Everyday tasks
 
 - **Change text:** edit the file for that page in `src/synapse/content/`. Anything marked `DRAFT` or `PLACEHOLDER` is draft copy to confirm.
-- **Add a document:** copy the PDF into `public/resources/` (file name without spaces), then copy an entry in `content/resources.ts`: set `title`, `fileName`, `category` (study, revision, quiz, roadmap or cheatsheet), `date`, `viewHref` (the Google Drive link, opens in a new tab) and `downloadHref` (`/resources/<fileName>`). Until `viewHref` exists the card says "View: link coming soon". A quiz can also get a `leaderboardHref`.
+- **Add a document:** copy the PDF into `public/resources/` (file name without spaces), then copy an entry in `content/resources.ts`: set `title`, `fileName`, `category` (study, revision, quiz, roadmap or cheatsheet), `date`, `viewHref` (the Google Drive link, opens in a new tab) and `downloadHref` (`/resources/<fileName>`). Until `viewHref` exists the View button is dimmed and does nothing. A quiz can also get a `leaderboardHref`.
 - **Add an event:** copy an entry in `content/events.ts` and set `startsAt` (for example `2026-12-15T18:00:00+05:30`). Delete `sample: true` to remove the "Sample" tag. Upcoming or past is worked out automatically.
 - **Add a category:** one line in `resourceCategories` in `content/resources.ts`; the filter picks it up.
 - **Change the accent colour:** edit the single `--brand` line in `src/synapse/theme.css`, then re-check contrast (`../docs/SYNAPSE-UI.md`, section 3.3).

@@ -7,7 +7,8 @@ import { ResourceBrowser } from "./browser";
 
 export function ResourcesList() {
   return (
-    <Section id="documents" aria-labelledby="documents-title">
+    // The first section sits close under the page header (smaller top padding).
+    <Section id="documents" aria-labelledby="documents-title" className="pt-8 md:pt-10">
       <SectionHead headingId="documents-title" {...resourcesList} />
       <ResourceBrowser items={resourceItems} />
     </Section>
