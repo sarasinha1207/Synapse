@@ -125,7 +125,8 @@ Synapse has **four pages**. The nav (Home, Events, Resources, and a **Contact Us
 | About | `#about` | white | Left: a lead paragraph and a supporting paragraph. Right: an "At a glance" card (Council, Wing, Focus, each with an icon) | Facts and first paragraph from the STC site; second paragraph is draft |
 | Key focus areas | `#focus` | `soft` | Eight cards: AI & machine learning, Deep learning, Python & libraries, Computer vision, Natural language processing, Projects & research, Webinars & talks, Revision & practice | AI & ML, deep learning and projects come from the STC page; Python, webinars and revision reflect what the club shares and runs; **Computer vision and NLP are drafts: confirm the club covers them or swap the topics**. All descriptions are draft |
 | Events | `#events` | white | The next (up to three) upcoming event cards and a "See all events" link | Pulled from the Events data, which is **all sample content** for now |
-| Where we belong | `#belonging` | `soft` | "Synapse is part of **TATVA**" with three cards: **Purpose of STC** (one central, well-structured platform for students' academic and professional aspirations), **Purpose of TATVA** (technical expertise and a research mindset, bridging academic learning and real-world technology) and **How Synapse completes the vision** (AI/ML is where TATVA's aim happens in practice: learning, projects, revision) | Purposes paraphrased from the STC site; the third card is draft |
+| Team | `#team` | `soft` | "Meet the team": six people as person cards with initials avatars: Md Huzaifa Ansari (Coordinator), Sharma Parvinkumar Madanlal (Sub Coordinator), Piyush Raj, Sara Sinha, Atishay Jain, Dhrubajyoti Chakraborty (Members) | Names and positions as provided by the club; no photos yet |
+| Where we belong | `#belonging` | white | "Synapse is part of **TATVA**" with three cards: **Purpose of STC** (one central, well-structured platform for students' academic and professional aspirations), **Purpose of TATVA** (technical expertise and a research mindset, bridging academic learning and real-world technology) and **How Synapse completes the vision** (AI/ML is where TATVA's aim happens in practice: learning, projects, revision) | Purposes paraphrased from the STC site; the third card is draft |
 
 Hero emblem: 15rem wide on phones, 19rem from 832 px; 1.5rem corner radius; a soft `--brand` glow; drifts up and down 8 px on a 6 s loop (disabled for reduced motion).
 
@@ -176,7 +177,7 @@ All text lives in typed files, one per page, in `synapse-web/src/synapse/content
 | File | What it holds |
 |---|---|
 | `site.ts` | Club name, navigation, footer, address and emails |
-| `home.ts` | Hero, About, Key focus areas, the Events preview wording, "Where we belong" (STC and TATVA) |
+| `home.ts` | Hero, About, Key focus areas, the Events preview wording, the team list, "Where we belong" |
 | `events.ts` | The Events page: every event (heading, about, speaker, start date and time, platform) |
 | `resources.ts` | The Resources page: the fixed categories and every document (title, file name, category, date, Drive link, download path) |
 | `contact.ts` | Contact header, form labels, topic list, privacy line, success and error messages |
@@ -260,6 +261,7 @@ npm run lint && npm run typecheck
 - [ ] Add the Google Drive "View" link to each document in `resources.ts`, and confirm each document's date
 - [ ] Add the club's other documents (quizzes, study material, roadmaps, cheat sheets) to `public/resources/` and `resources.ts`
 - [ ] Read the "Where we belong" wording (purpose of STC, purpose of TATVA, how Synapse completes the vision) and confirm it says what the club wants to say
+- [ ] Add a photo for each team member (optional) and confirm everyone is happy to be listed by full name
 - [ ] Confirm large PDFs are OK to keep in the site folder (the two so far are 2.3 MB and 5.5 MB)
 - [ ] **Set up where doubts go**: create the destination (for example a Google Sheet via Apps Script) and set `DOUBTS_WEBHOOK_URL` on the host; send a test doubt. Until then the form shows "not switched on yet"
 - [ ] Decide who reads the doubts, who replies, and how fast, then confirm the "a Synapse member will reply" promise and the privacy line under the form
@@ -277,6 +279,7 @@ npm run lint && npm run typecheck
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: identity, blue accent derived from the logo, home-page structure, content model |
+| 0.5 | 2026-11-07 | Added the Team section to the home page (six members with positions, initials avatars) |
 | 0.4 | 2026-11-05 | Wordmark font changed to Orbitron bold. "Where we belong" cut down to three purpose cards. Eight focus areas. Events and Resources: tighter space under the header, roomier cards. Resource rows are icon-only and View is always a (possibly disabled) button |
 | 0.3 | 2026-11-05 | Added the Events page (heading, about, speaker, date, time, platform) and a fourth nav item. Resources redesigned: one filterable list of documents (heading, file name, category, date, View and Download) with the first two PDFs added. Home gained a closing "Where we belong" section about STC and TATVA. Google Sheets setup for the doubts form added |
 | 0.2 | 2026-11-05 | Three pages: Home (About, Key focus areas, Events), Resources (Revision material shared, Quizzes conducted, with leaderboard links), Contact Us (doubt form). Content split into one file per page. Brief club and focus-area copy written (draft) |

@@ -21,11 +21,12 @@ import { CardGrid } from "@/stc-ui/card-grid";
 import { Container } from "@/stc-ui/container";
 import { Eyebrow } from "@/stc-ui/eyebrow";
 import { InfoRow } from "@/stc-ui/info-row";
+import { PersonCard } from "@/stc-ui/person-card";
 import { Reveal } from "@/stc-ui/reveal";
 import { Section } from "@/stc-ui/section";
 import { SectionHead } from "@/stc-ui/section-head";
 import { cn } from "@/lib/utils";
-import { about, belonging, eventsPreview, focus, hero, type BelongingIcon, type FocusIcon } from "../content/home";
+import { about, belonging, eventsPreview, focus, hero, team, type BelongingIcon, type FocusIcon } from "../content/home";
 import { events } from "../content/events";
 import { EmptyNote, EventGrid, splitEvents } from "../events/sections";
 import { HeroEmblem } from "./hero-emblem";
@@ -179,11 +180,30 @@ export function Events() {
   );
 }
 
+/** The people who run the club: one card each, leads highlighted. Sits just before "Where we belong" (grey, so the sections keep alternating). */
+export function Team() {
+  const { members, ...head } = team;
+  return (
+    <Section id="team" tone="soft" aria-labelledby="team-title">
+      <SectionHead headingId="team-title" {...head} />
+      <CardGrid>
+        {members.map((member, i) => (
+          <li key={member.name}>
+            <Reveal delay={(i % 3) * 0.08} className="h-full">
+              <PersonCard name={member.name} position={member.position} highlight={member.position !== "Member"} />
+            </Reveal>
+          </li>
+        ))}
+      </CardGrid>
+    </Section>
+  );
+}
+
 /** Last home section: why STC and TATVA exist, and how Synapse completes that vision (three short cards). */
 export function Belonging() {
   const { cards, ...head } = belonging;
   return (
-    <Section id="belonging" tone="soft" aria-labelledby="belonging-title">
+    <Section id="belonging" aria-labelledby="belonging-title">
       <SectionHead headingId="belonging-title" {...head} />
       <CardGrid>
         {cards.map((card, i) => {

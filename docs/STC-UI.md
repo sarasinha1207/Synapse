@@ -225,6 +225,9 @@ A **centred** grid of equal-width cards (each card in an `<li>`): 1 across on ph
 
 **Centred layout rule.** On every page except the two opening sections of the home page (the hero and About, which are two-column and left-aligned), the section headings, the filter row, the card grids and the intro bands are centred on the page. Forms keep left-aligned text inside a form card (the card itself is centred), and the dark footer stays left-aligned.
 
+### 4.18 Person card (`person-card.tsx`)
+A team member in a static card (no hover lift): a 56 px round avatar showing the person's initials (first and last word of the name; replace with a photo when one exists), then the name (18 px / 700) and the position as a pill. Leads get a `--brand`-filled avatar and a `--brand-tint` pill; members get a tinted avatar and a grey pill. The avatar is decorative; the name and position carry the meaning.
+
 ---
 
 ## 5. Page patterns
@@ -238,9 +241,10 @@ Sections alternate white and `soft` backgrounds:
 2. **About** (white), **left-aligned in two columns**: eyebrow, two-tone h2, a larger lead paragraph and a supporting paragraph; beside them an "At a glance" card whose rows (council, wing, focus) each have an icon and divider lines
 3. **Key focus areas** (`soft`): centred heading and eight icon cards in fixed columns (1, then 2 across, then 4 across = two even rows) so no card is left alone on a row
 4. **Events** (white): heading and the next few **upcoming** event cards, with a "See all events" link (or a short note when none are upcoming)
-5. **Where we belong** (`soft`): a heading ("Synapse is part of TATVA") and three short cards side by side: the **purpose of the council**, the **purpose of the wing**, and **how the club completes that vision** (highlighted with the brand tint). Keep it to purpose only: no lists of wings, sub-clubs or statistics
+5. **Team** (`soft`): a heading ("Meet the team") and one person card per member, three across on a wide screen, centred. Leads (any position other than "Member") get a filled avatar
+6. **Where we belong** (white): a heading ("Synapse is part of TATVA") and three short cards side by side: the **purpose of the council**, the **purpose of the wing**, and **how the club completes that vision** (highlighted with the brand tint). Keep it to purpose only: no lists of wings, sub-clubs or statistics
 
-Anchors: `#about`, `#focus`, `#events`, `#belonging`.
+Anchors: `#about`, `#focus`, `#events`, `#team`, `#belonging`.
 
 ### 5.2 Events and Resources pages ("list" pages)
 Page header, then the lists, then (on Resources) a closing CTA band that points to Contact. The page header has little bottom padding and the first section little top padding (about 40 px between them in total), so the content starts close under the heading.
@@ -386,6 +390,7 @@ Tailwind theme tokens (utilities such as `bg-brand-tint`, `text-ink`, `rounded-s
 | Version | Date | Notes |
 |---|---|---|
 | 0.1 | 2026-11-05 | First draft: tokens, 11 components, club-home pattern, event-skin rules, accessibility baseline. Reference implementation built for Synapse |
+| 0.7 | 2026-11-07 | Added the person card (4.18) and a Team section on the home page, between Events and Where we belong; section backgrounds re-alternated |
 | 0.6 | 2026-11-05 | Home hero and About redesigned: left-aligned two-column layouts instead of centred stacks. Hero gains a dot-grid backdrop, a framed emblem with floating tags and three icon highlights; About gains a lead paragraph and an "At a glance" card |
 | 0.5 | 2026-11-05 | Everything centred: section headings, page headers, the home hero and About, the filter row, and all card grids via the new card grid component (4.17); resource cards narrower (about 350 px) with 20 px padding |
 | 0.4 | 2026-11-05 | Roomier event and resource cards (more padding and spacing, divider lines); resource rows are icon-only; the View button is always a button and is disabled, not replaced by text, when it has no link; tighter space under inner-page headers; "Where we belong" reduced to three purpose cards; focus areas grid for eight cards |

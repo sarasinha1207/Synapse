@@ -119,6 +119,26 @@ export const eventsPreview = {
   allLink: { label: "See all events", href: "/events" },
 };
 
+/**
+ * Team members, in this order, as provided by the club (position: Coordinator, Sub Coordinator or Member).
+ * To add a person, add a line. Anyone whose position is not "Member" gets the highlighted avatar.
+ * Photos are not used yet: avatars show initials.
+ */
+export const team = {
+  eyebrow: "Our team",
+  before: "Meet the ",
+  accent: "team",
+  description: "The people who run Synapse.",
+  members: [
+    { name: "Md Huzaifa Ansari", position: "Coordinator" },
+    { name: "Sharma Parvinkumar Madanlal", position: "Sub Coordinator" },
+    { name: "Piyush Raj", position: "Member" },
+    { name: "Sara Sinha", position: "Member" },
+    { name: "Atishay Jain", position: "Member" },
+    { name: "Dhrubajyoti Chakraborty", position: "Member" },
+  ] as { name: string; position: string }[],
+};
+
 export type BelongingIcon = "council" | "wing" | "club";
 
 /**
